@@ -318,11 +318,11 @@ const App = class App extends React.Component {
               </Grid>
               <Grid item xs={12} md={4}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid item xs={7} sm={6} md={12}>
                     <Card>
                       <CardContent>
                         <Typography color="textSecondary" gutterBottom>
-                          Score (sans bonus)
+                          Score sans bonus
                         </Typography>
                         <Typography variant="h5" component="h2">
                           {this.state.score}
@@ -330,7 +330,7 @@ const App = class App extends React.Component {
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={5} sm={6} md={12}>
                     <Card>
                       <CardContent>
                         <Typography color="textSecondary" gutterBottom>
