@@ -1,0 +1,8 @@
+{
+    "id": "fr",
+    "header": {
+        "title": "Simulation de score Eurobot 2020",
+        "description": "Calculer votre score en ligne!",
+        "author": "Créé par l'équipe {{- werobot }} pour vous aider!"
+    }
+ }

@@ -1,0 +1,8 @@
+{
+    "id": "en",
+    "header": {
+        "title": "Eurobot 2020 score simulation",
+        "description": "Compute your game score online!",
+        "author": "Created by the {{- werobot }} team to help you!"
+    }
+ }
