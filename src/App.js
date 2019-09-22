@@ -212,7 +212,7 @@ const App = class App extends React.Component {
                   </Grid>
                   <Grid item>
                     <FormControl component="fieldset">
-                      <FormLabel component="legend">Manches à air levés</FormLabel>
+                      <FormLabel component="legend">Manches à air levées</FormLabel>
                       <RadioGroup name="windsocks" value={this.inputs.windsocks}>
                         <FormControlLabel 
                           onChange={this.computeScore}
