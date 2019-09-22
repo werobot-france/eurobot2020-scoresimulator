@@ -41,7 +41,7 @@ const App = class App extends React.Component {
 
   state = {
     score: 0,
-    totalScore: 20,
+    totalScore: 0,
     bonus: 0,
     lighthouseCanBeDeployed: false,
     lighthouseCanBeEnabled: false
