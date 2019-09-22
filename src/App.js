@@ -133,7 +133,7 @@ const App = class App extends React.Component {
             <div className="header-content">
               <div className="header-logos">
                 <img 
-                  src="http://www.eurobot.org/media/eurobot.png"
+                  src="/eurobot.png"
                   alt="Eurobot's logo"
                   className="eurobot-logo"
                   style={{width: '10em'}} />
