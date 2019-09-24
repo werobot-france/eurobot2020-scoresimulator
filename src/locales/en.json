@@ -6,16 +6,19 @@
         "author": "Created by the {{- werobot }} team to help you!"
     },
     "buoys": {
-        "title": "Buoys",
+        "title": "Create fairways",
         "buoysInPort": "Buoys in the port",
         "buoysInColoredFairway": "Buoys on the colored fairway line",
         "buoysValidPairs": "Pairs of buoys"
     },
     "windsocks": {
-        "title": "Lifted windsocks"
+        "title": "Lift up the windsocks",
+        "none": "None lifted",
+        "one": "One lifted",
+        "both": "All lifted"
     },
     "lighthouse": {
-        "title": "Lighthouse",
+        "title": "Turn on the lighthouse",
         "exists": "Present",
         "enabled": "Enabled",
         "deployed": "Deployed"

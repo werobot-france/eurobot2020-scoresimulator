@@ -127,7 +127,7 @@ const App = class App extends React.Component {
   }
   
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -135,6 +135,11 @@ const App = class App extends React.Component {
             <div className="header">
               <div className="header-content">
                 <div className="header-logos">
+                   {/* <img 
+                    src="https://www.eurobot.org/images/2020/Logo.png"
+                    alt="Sail the world"
+                    className="sailtheworld-logo"
+                    style={{width: '10em'}} /> */}
                   <img 
                     src="/eurobot.png"
                     alt="Eurobot's logo"
@@ -162,12 +167,12 @@ const App = class App extends React.Component {
                       <ButtonGroup size="small" color="primary">
                         <Button 
                           onClick={() => this.switchLocale('fr')}
-                          disabled={i18n.language === 'fr'}>
+                          disabled={this.props.i18n.language === 'fr'}>
                             Français
                         </Button>
                         <Button
                           onClick={() => this.switchLocale('en')}
-                          disabled={i18n.language === 'en'}>
+                          disabled={this.props.i18n.language.indexOf('en') !== -1}>
                             English
                         </Button>
                       </ButtonGroup>
@@ -182,7 +187,7 @@ const App = class App extends React.Component {
             <Divider style={{marginBottom: '1em', marginTop: '1em'}} />
             <div className="form">
               <Grid container spacing={1}>
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12} md={9}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={8} lg={6}>
                       <FormControl component="fieldset" fullWidth>
@@ -225,17 +230,17 @@ const App = class App extends React.Component {
                             onChange={this.computeScore}
                             control={<Radio />}
                             value="none"
-                            label="0" color="secondary" />
+                            label={t('windsocks.none')} />
                           <FormControlLabel 
                             onChange={this.computeScore}
                             control={<Radio />}
                             value="one"
-                            label="1 (5pts)" />
+                            label={t('windsocks.one') + " (5pts)"} />
                           <FormControlLabel 
                             onChange={this.computeScore}
                             value="both"
                             control={<Radio />}
-                            label="2 (15pts)" />
+                            label={t('windsocks.both') + " (15pts)"} />
                         </RadioGroup>
                       </FormControl>
                     </Grid>
@@ -332,7 +337,7 @@ const App = class App extends React.Component {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
                   <Grid container spacing={2}>
                     <Grid item xs={7} sm={6} md={12}>
                       <Card>

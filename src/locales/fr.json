@@ -12,7 +12,10 @@
         "buoysValidPairs": "Paires de bouées"
     },
     "windsocks": {
-        "title": "Relever les manches à air"
+        "title": "Relever les manches à air",
+        "none": "Aucune levées",
+        "one": "Une levées",
+        "both": "Toutes levées"
     },
     "lighthouse": {
         "title": "Allumer le phare",
