@@ -4,5 +4,41 @@
         "title": "Eurobot 2020 score simulation",
         "description": "Compute your game score online!",
         "author": "Created by the {{- werobot }} team to help you!"
+    },
+    "buoys": {
+        "title": "Buoys",
+        "buoysInPort": "Buoys in the port",
+        "buoysInColoredFairway": "Buoys on the colored fairway line",
+        "buoysValidPairs": "Pairs of buoys"
+    },
+    "windsocks": {
+        "title": "Lifted windsocks"
+    },
+    "lighthouse": {
+        "title": "Lighthouse",
+        "exists": "Present",
+        "enabled": "Enabled",
+        "deployed": "Deployed"
+    },
+    "orientation": {
+        "title": "Anchor safely",
+        "none": "Not in or in differents zones",
+        "onlyOne": "Only one of the robot is valid",
+        "bad": "Robot(s) are in the bad zone",
+        "good": "Robot(s) are in the right zone"
+    },
+    "flags": {
+        "title": "Hoist flags",
+        "none": "Not raised",
+        "raised": "Robot has raised its flags"
+    },
+    "estimate": {
+        "title": "Estimate the performance",
+        "value": "Your estimate"
+    },
+    "score": {
+        "without-bonus": "Without bonus",
+        "bonus": "Bonus",
+        "total": "Total score"
     }
  }

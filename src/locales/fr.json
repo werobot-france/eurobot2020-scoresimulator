@@ -4,5 +4,41 @@
         "title": "Simulation de score Eurobot 2020",
         "description": "Calculer votre score en ligne!",
         "author": "Créé par l'équipe {{- werobot }} pour vous aider!"
+    },
+    "buoys": {
+        "title": "Créer un chenal",
+        "buoysInPort": "Bouées dans le port",
+        "buoysInColoredFairway": "Bouées dans le chenal coloré",
+        "buoysValidPairs": "Paires de bouées"
+    },
+    "windsocks": {
+        "title": "Relever les manches à air"
+    },
+    "lighthouse": {
+        "title": "Allumer le phare",
+        "exists": "Présent",
+        "enabled": "Activé",
+        "deployed": "Deployé"
+    },
+    "orientation": {
+        "title": "Arriver à bon port",
+        "none": "Robots dans des zones différentes",
+        "onlyOne": "Seulement un seul robot est dans la bonne zone",
+        "bad": "Les robots ne sont pas dans la bonne zone",
+        "good": "Les robots sont dans la bonne zone"
+    },
+    "flags": {
+        "title": "Hisser des pavillons",
+        "none": "Pas hisés",
+        "raised": "Un robot a hisé deux pavillons"
+    },
+    "estimate": {
+        "title": "Estimer votre performance",
+        "value": "Your estimate"
+    },
+    "score": {
+        "without-bonus": "Sans bonus",
+        "bonus": "Bonus",
+        "total": "Score total"
     }
  }
