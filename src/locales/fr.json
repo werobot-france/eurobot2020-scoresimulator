@@ -2,7 +2,7 @@
     "id": "fr",
     "header": {
         "title": "Simulation de score Eurobot 2020",
-        "description": "Calculer votre score en ligne!",
+        "description": "Simulateur de score de match eurobot 2020",
         "author": "Créé par l'équipe {{- werobot }} pour vous aider!"
     },
     "buoys": {
@@ -43,5 +43,9 @@
         "without-bonus": "Sans bonus",
         "bonus": "Bonus",
         "total": "Score total"
+    },
+    "forfeit": {
+        "title": "Forfait",
+        "nonForfeit": "Non forfait"
     }
  }

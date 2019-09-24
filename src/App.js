@@ -39,31 +39,34 @@ const theme = createMuiTheme({
 
 const App = class App extends React.Component {
 
-  state = {
-    score: 0,
-    totalScore: 0,
-    bonus: 0,
-    lighthouseCanBeDeployed: false,
-    lighthouseCanBeEnabled: false
-  }
-
-  inputs = {
-    // buoys
-    buoysInPort: 0,
-    buoysInColoredChannel: 0,
-    buoysValidPairs: 0,
-    // lighthouse
-    lighthouseExists: false,
-    lighthouseEnabled: false,
-    lighthouseDeployed: false,
-    // windsock
-    windsocks: 'none',
-    orientation: 'none',
-    flags: '',
-    estimate: 0
+  constructor(props) {
+    super(props)
+    this.state = {
+      score: 0,
+      totalScore: 5,
+      bonus: 0,
+      lighthouseCanBeDeployed: false,
+      lighthouseCanBeEnabled: false,
+      nonForfeit: true,
+      // buoys
+      buoysInPort: 0,
+      buoysInColoredChannel: 0,
+      buoysValidPairs: 0,
+      // lighthouse
+      lighthouseExists: false,
+      lighthouseEnabled: false,
+      lighthouseDeployed: false,
+      // windsock
+      windsocks: 'none',
+      orientation: 'none',
+      flags: '',
+      estimate: 0
+    }
+    this.computeScore = this.computeScore.bind(this)
   }
 
   computeScore = (event) => {
+    event.preventDefault()
     let targetType = event.target.type
     let targetValue = event.target.type !== 'checkbox' ? event.target.value : event.target.checked
     if (targetType === 'number') {
@@ -74,52 +77,64 @@ const App = class App extends React.Component {
     }
     console.log(targetType, event.target.name, targetValue) 
     
-    let inputs = this.inputs
-    inputs[event.target.name] = targetValue
-    this.inputs = inputs
-    //console.log(inputs)
+    let stateToUpdate = {}
+    stateToUpdate[event.target.name] = targetValue
+    //console.log(stateToUpdate)
+    this.setState({
+      [event.target.name]: targetValue
+    }, () => {
+      let lighthouseCanBeEnabled = this.state.lighthouseExists
+      let lighthouseCanBeDeployed = this.state.lighthouseEnabled
 
-    let lighthouseCanBeEnabled = inputs.lighthouseExists
-    let lighthouseCanBeDeployed = inputs.lighthouseEnabled
+      let totalScore = 0;
+      totalScore += this.state.buoysInPort;
+      totalScore += this.state.buoysInColoredChannel;
+      totalScore += this.state.buoysValidPairs * 2;
+      if (this.state.windsocks === 'one') {
+        totalScore += 5
+      }
+      if (this.state.windsocks === 'both') {
+        totalScore += 15
+      }
+      if (this.state.lighthouseExists) {
+        totalScore += 2
+      }
+      if (this.state.lighthouseExists && this.state.lighthouseEnabled) {
+        totalScore += 3
+      }
+      if (this.state.lighthouseExists && this.state.lighthouseDeployed && this.state.lighthouseEnabled) {
+        totalScore += 10
+      }
+      if (this.state.orientation === 'bad') {
+        totalScore += 5
+      }
+      if (this.state.orientation === 'onlyOne') {
+        totalScore += 5
+      }
+      if (this.state.orientation === 'good') {
+        totalScore += 10
+      }
+      if (this.state.flags === 'deployed') {
+        totalScore += 10
+      }
+      let score = totalScore;
+      let bonus =  (0.30 * totalScore).toFixed(0) - (Math.abs(totalScore - this.state.estimate));
+      bonus =  (bonus < 0 ? 0 : bonus);
+      totalScore += bonus;
 
-    let totalScore = 0;
-    totalScore += inputs.buoysInPort;
-    totalScore += inputs.buoysInColoredChannel;
-    totalScore += inputs.buoysValidPairs * 2;
-    if (inputs.windsocks === 'one') {
-      totalScore += 5
-    }
-    if (inputs.windsocks === 'both') {
-      totalScore += 15
-    }
-    if (inputs.lighthouseExists) {
-      totalScore += 2
-    }
-    if (inputs.lighthouseExists && inputs.lighthouseEnabled) {
-      totalScore += 3
-    }
-    if (inputs.lighthouseExists && inputs.lighthouseDeployed && inputs.lighthouseEnabled) {
-      totalScore += 10
-    }
-    if (inputs.orientation === 'bad') {
-      totalScore += 5
-    }
-    if (inputs.orientation === 'onlyOne') {
-      totalScore += 5
-    }
-    if (inputs.orientation === 'good') {
-      totalScore += 10
-    }
-    if (inputs.flags === 'deployed') {
-      totalScore += 10
-    }
-    let score = totalScore;
-    let bonus =  (0.30 * totalScore).toFixed(0) - (Math.abs(totalScore - inputs.estimate));
-    bonus =  (bonus < 0 ? 0 : bonus);
-    totalScore += bonus;
-    
-    this.setState({score, bonus, totalScore, lighthouseCanBeDeployed, lighthouseCanBeEnabled})
-    
+      if (this.state.nonForfeit) {
+        totalScore += 5; // 5 points default (nonForfeit)
+      }
+      
+      this.setState({
+        score,
+        bonus,
+        totalScore,
+        lighthouseCanBeDeployed,
+        lighthouseCanBeEnabled
+      })
+    })
+
   }
 
   switchLocale = (locale) => {
@@ -141,20 +156,20 @@ const App = class App extends React.Component {
                     className="sailtheworld-logo"
                     style={{width: '10em'}} /> */}
                   <img 
-                    src="/eurobot.png"
-                    alt="Eurobot's logo"
+                    src="/icons/icon_400.png"
+                    alt="Sail the world"
                     className="eurobot-logo"
-                    style={{width: '10em'}} />
+                    style={{width: '8em'}} />
                   <img
                     src="https://s.werobot.fr/logo.png"
                     alt="We Robot's logo"
                     className="werobot-logo"
-                    style={{width: '10em'}} />
+                    style={{width: '8em'}} />
                 </div>
                 <div className="header-title">
-                  <Typography variant="h4">
+                  {/* <Typography variant="h4">
                     {t('header.title')}
-                  </Typography>
+                  </Typography> */}
                   <div className="header-sub">
                     <div>
                       <Typography variant="h6">
@@ -225,19 +240,17 @@ const App = class App extends React.Component {
                         <FormLabel component="legend">
                           {t('windsocks.title')}
                         </FormLabel>
-                        <RadioGroup name="windsocks" value={this.inputs.windsocks}>
+                        <RadioGroup name="windsocks" value={this.state.windsocks} 
+                            onChange={this.computeScore}>
                           <FormControlLabel 
-                            onChange={this.computeScore}
                             control={<Radio />}
                             value="none"
                             label={t('windsocks.none')} />
                           <FormControlLabel 
-                            onChange={this.computeScore}
                             control={<Radio />}
                             value="one"
                             label={t('windsocks.one') + " (5pts)"} />
                           <FormControlLabel 
-                            onChange={this.computeScore}
                             value="both"
                             control={<Radio />}
                             label={t('windsocks.both') + " (15pts)"} />
@@ -251,23 +264,27 @@ const App = class App extends React.Component {
                         </FormLabel>
                         <FormGroup>
                           <FormControlLabel
-                            control={<Checkbox name="lighthouseExists" />}
+                            control={<Checkbox 
+                              checked={this.state.lighthouseExists}
+                              name="lighthouseExists"
+                              onChange={this.computeScore} />}
                             label={t('lighthouse.exists')+" (2pts)"}
-                            onChange={this.computeScore}
                           />
                           <FormControlLabel
                             control={<Checkbox 
+                              checked={this.state.lighthouseEnabled}
                               disabled={!this.state.lighthouseCanBeEnabled}
+                              onChange={this.computeScore}
                               name="lighthouseEnabled" />}
                             label={t('lighthouse.enabled')+" (3pts)"}
-                            onChange={this.computeScore}
                           />
                           <FormControlLabel
                             control={<Checkbox 
+                              checked={this.state.lighthouseDeployed}
                               disabled={!this.state.lighthouseCanBeDeployed || !this.state.lighthouseCanBeEnabled}
+                              onChange={this.computeScore}
                               name="lighthouseDeployed" />}
                             label={t('lighthouse.deployed')+" (10pts)"}
-                            onChange={this.computeScore}
                           />
                         </FormGroup>
                       </FormControl>
@@ -277,26 +294,23 @@ const App = class App extends React.Component {
                         <FormLabel component="legend" color="red">
                           {t('orientation.title')}
                         </FormLabel>
-                        <RadioGroup name="orientation" value={this.inputs.orientation}>
+                        <RadioGroup name="orientation" value={this.state.orientation}
+                            onChange={this.computeScore}>
                           <FormControlLabel 
                             value="none"
                             control={<Radio />}
-                            onChange={this.computeScore}
                             label={t('orientation.none')} />
                           <FormControlLabel
                             value="onlyOne"
                             control={<Radio />}
-                            onChange={this.computeScore}
                             label={t('orientation.onlyOne') +" (5pts)"} />
                           <FormControlLabel
                             value="bad"
                             control={<Radio />}
-                            onChange={this.computeScore}
                             label={t('orientation.bad') +" (5pts)"} />
                           <FormControlLabel
                             value="good"
                             control={<Radio />}
-                            onChange={this.computeScore}
                             label={t('orientation.good') +" (10pts)"} />
                         </RadioGroup>
                       </FormControl>
@@ -306,16 +320,15 @@ const App = class App extends React.Component {
                         <FormLabel component="legend">
                           {t('flags.title')}
                         </FormLabel>
-                        <RadioGroup name="flags" value={this.inputs.flags}>
+                        <RadioGroup name="flags" value={this.state.flags} 
+                            onChange={this.computeScore}>
                           <FormControlLabel
                             value="none"
                             control={<Radio />}
-                            onChange={this.computeScore}
                             label={t('flags.none')} />
                           <FormControlLabel
                             value="deployed"
                             control={<Radio />}
-                            onChange={this.computeScore}
                             label={t('flags.raised')+" (10pts)"} />
                         </RadioGroup>
                       </FormControl>
@@ -333,6 +346,22 @@ const App = class App extends React.Component {
                           name="estimate"
                           onChange={this.computeScore}
                         />
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <FormControl component="fieldset" fullWidth>
+                        <FormLabel component="legend">
+                          {t('forfeit.title')}
+                        </FormLabel>
+                        <FormGroup>
+                          <FormControlLabel
+                            control={<Checkbox
+                              name="nonForfeit" 
+                              onChange={this.computeScore}
+                              checked={this.state.nonForfeit} />}
+                            label={t('forfeit.nonForfeit')+" (5pts)"}
+                          />
+                        </FormGroup>
                       </FormControl>
                     </Grid>
                   </Grid>

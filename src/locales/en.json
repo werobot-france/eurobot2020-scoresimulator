@@ -43,5 +43,9 @@
         "without-bonus": "Without bonus",
         "bonus": "Bonus",
         "total": "Total score"
+    },
+    "forfeit": {
+        "title": "Forfeit",
+        "nonForfeit": "Non forfeit"
     }
  }
