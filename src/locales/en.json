@@ -8,8 +8,14 @@
     "buoys": {
         "title": "Create fairways",
         "buoysInPort": "Buoys in the port",
-        "buoysInColoredFairway": "Buoys on the colored fairway line",
-        "buoysValidPairs": "Pairs of buoys"
+        "buoysInColoredFairway": {
+            "title": "Buoys in the colored fairway line",
+            "description": "1pt additionally per valid buoy on the fairway line of its color"
+        },
+        "buoysValidPairs": {
+            "title": "Pairs of buoys",
+            "description": "2pts per pair of valid buoys on the fairway lines of one port. A valid pair includes one green buoy and one red"
+        }
     },
     "windsocks": {
         "title": "Lift up the windsocks",

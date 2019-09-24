@@ -219,19 +219,21 @@ const App = class App extends React.Component {
                         />
                         <TextField
                           fullWidth
-                          label={t('buoys.buoysInColoredFairway')+" (1pt)"}
+                          label={t('buoys.buoysInColoredFairway.title')+" (1pt)"}
                           type="number"
                           margin="dense"
                           name="buoysInColoredChannel"
                           onChange={this.computeScore}
+                          helperText={t('buoys.buoysInColoredFairway.description')}
                         />
                         <TextField
                           fullWidth
-                          label={t('buoys.buoysValidPairs')+" (2pts)"}
+                          label={t('buoys.buoysValidPairs.title')+" (2pts)"}
                           type="number"
                           margin="dense"
                           name="buoysValidPairs"
                           onChange={this.computeScore}
+                          helperText={t('buoys.buoysValidPairs.description')}
                         />
                       </FormControl>
                     </Grid>
