@@ -32,12 +32,12 @@
     },
     "flags": {
         "title": "Hisser des pavillons",
-        "none": "Pas hisés",
-        "raised": "Un robot a hisé deux pavillons"
+        "none": "Pas hissés",
+        "raised": "Un robot a hissé deux pavillons"
     },
     "estimate": {
         "title": "Estimer votre performance",
-        "value": "Your estimate"
+        "value": "Votre estimation"
     },
     "score": {
         "without-bonus": "Sans bonus",
