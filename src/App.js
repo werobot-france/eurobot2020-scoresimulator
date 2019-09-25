@@ -60,7 +60,8 @@ const App = class App extends React.Component {
       windsocks: 'none',
       orientation: 'none',
       flags: '',
-      estimate: 0
+      estimate: 0,
+      framed: new URLSearchParams(window.location.search).get('framed') === 'true'
     }
     this.computeScore = this.computeScore.bind(this)
   }
@@ -74,7 +75,7 @@ const App = class App extends React.Component {
         targetValue = 0
       }
     }
-    console.log(targetType, event.target.name, targetValue) 
+    //console.log(targetType, event.target.name, targetValue) 
     
     let stateToUpdate = {}
     stateToUpdate[event.target.name] = targetValue
@@ -135,7 +136,6 @@ const App = class App extends React.Component {
         lighthouseDeployed: this.state.lighthouseExists && this.state.lighthouseEnabled && this.state.lighthouseDeployed
       })
     })
-
   }
 
   switchLocale = (locale) => {
@@ -145,9 +145,9 @@ const App = class App extends React.Component {
   render() {
     const { t } = this.props;
     return (
-      <div>
+      <div className={(this.state.framed ? 'framed' : '')}>
         <ThemeProvider theme={theme}>
-          <Container>
+          <Container className="main-container">
             <div className="header">
               <div className="header-content">
                 <div className="header-logos">
