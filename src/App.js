@@ -60,7 +60,7 @@ const App = class App extends React.Component {
       // windsock
       windsocks: 'none',
       orientation: 'none',
-      flags: '',
+      flags: 'none',
       estimate: 0,
       framed: query.get('framed') === 'true',
       withoutHeader: query.get('without-header') === 'true'
