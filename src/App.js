@@ -41,6 +41,7 @@ const App = class App extends React.Component {
 
   constructor(props) {
     super(props)
+    let query = new URLSearchParams(window.location.search)
     this.state = {
       score: 0,
       totalScore: 5,
@@ -61,9 +62,10 @@ const App = class App extends React.Component {
       orientation: 'none',
       flags: '',
       estimate: 0,
-      framed: new URLSearchParams(window.location.search).get('framed') === 'true'
+      framed: query.get('framed') === 'true'
     }
     this.computeScore = this.computeScore.bind(this)
+    this.props.i18n.changeLanguage(query.get('locale'))
   }
 
   computeScore = (event) => {
