@@ -3,7 +3,7 @@
     "header": {
         "title": "Simulation de score Eurobot 2020",
         "description": "Simulateur de score de match eurobot 2020",
-        "author": "Créé par l'équipe {{- werobot }} pour vous aider!"
+        "author": "Créé par l'équipe {{- werobot }} pour vous aider !"
     },
     "buoys": {
         "title": "Créer un chenal",
@@ -51,7 +51,8 @@
         "total": "Score total"
     },
     "forfeit": {
-        "title": "Forfait",
-        "nonForfeit": "Non forfait"
+        "title": "Forfait & pénalités",
+        "nonForfeit": "Non forfait",
+        "penalties": "Pénalités (-20pts)"
     }
  }

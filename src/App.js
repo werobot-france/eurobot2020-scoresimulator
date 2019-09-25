@@ -62,6 +62,7 @@ const App = class App extends React.Component {
       orientation: 'none',
       flags: 'none',
       estimate: 0,
+      penalties: 0,
       framed: query.get('framed') === 'true',
       withoutHeader: query.get('without-header') === 'true'
     }
@@ -129,6 +130,12 @@ const App = class App extends React.Component {
         totalScore += 5; // 5 points default (nonForfeit)
       }
       
+      totalScore -= 20 * this.state.penalties;
+
+      if (totalScore < 0) {
+        totalScore = 0;
+      }
+            
       this.setState({
         score,
         bonus,
@@ -354,10 +361,11 @@ const App = class App extends React.Component {
                           fullWidth
                           label={t('estimate.value')}
                           type="number"
-                          margin="dense"
+                          margin="normal"
                           value={this.state.estimate}
                           name="estimate"
                           onChange={this.computeScore}
+                          variant="outlined"
                         />
                       </FormControl>
                     </Grid>
@@ -376,6 +384,16 @@ const App = class App extends React.Component {
                             label={t('forfeit.nonForfeit')+" (5pts)"}
                           />
                         </FormGroup>
+                        <TextField
+                          fullWidth
+                          label={t('forfeit.penalties')}
+                          type="number"
+                          margin="normal"
+                          value={this.state.penalties}
+                          name="penalties"
+                          onChange={this.computeScore}
+                          variant="outlined"
+                        />
                       </FormControl>
                     </Grid>
                   </Grid>
