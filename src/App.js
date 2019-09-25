@@ -217,29 +217,32 @@ const App = class App extends React.Component {
                           fullWidth
                           label={t('buoys.buoysInPort')+" (1pt)"}
                           type="number"
-                          margin="dense"
+                          margin="normal"
                           value={this.state.buoysInPort}
                           name="buoysInPort"
                           onChange={this.computeScore}
+                          variant="outlined"
                         />
                         <TextField
                           fullWidth
                           label={t('buoys.buoysInColoredFairway.title')+" (1pt)"}
                           type="number"
-                          margin="dense"
+                          margin="normal"
                           value={this.state.buoysInColoredChannel}
                           name="buoysInColoredChannel"
                           onChange={this.computeScore}
                           helperText={t('buoys.buoysInColoredFairway.description')}
+                          variant="outlined"
                         />
                         <TextField
                           fullWidth
                           label={t('buoys.buoysValidPairs.title')+" (2pts)"}
                           type="number"
-                          margin="dense"
+                          margin="normal"
                           value={this.state.buoysValidPairs}
                           name="buoysValidPairs"
                           onChange={this.computeScore}
+                          variant="outlined"
                           helperText={t('buoys.buoysValidPairs.description')}
                         />
                       </FormControl>
@@ -367,6 +370,7 @@ const App = class App extends React.Component {
                           <FormControlLabel
                             control={<Checkbox
                               name="nonForfeit" 
+                              disabled
                               onChange={this.computeScore}
                               checked={this.state.nonForfeit} />}
                             label={t('forfeit.nonForfeit')+" (5pts)"}
