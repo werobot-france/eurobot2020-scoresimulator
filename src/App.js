@@ -62,7 +62,8 @@ const App = class App extends React.Component {
       orientation: 'none',
       flags: '',
       estimate: 0,
-      framed: query.get('framed') === 'true'
+      framed: query.get('framed') === 'true',
+      withoutHeader: query.get('without-header') === 'true'
     }
     this.computeScore = this.computeScore.bind(this)
     this.props.i18n.changeLanguage(query.get('locale'))
@@ -147,7 +148,7 @@ const App = class App extends React.Component {
   render() {
     const { t } = this.props;
     return (
-      <div className={(this.state.framed ? 'framed' : '')}>
+      <div className={(this.state.framed ? 'framed' : '') + ' ' + (this.state.withoutHeader ? 'without-header': '')}>
         <ThemeProvider theme={theme}>
           <Container className="main-container">
             <div className="header">
