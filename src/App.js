@@ -66,7 +66,6 @@ const App = class App extends React.Component {
   }
 
   computeScore = (event) => {
-    event.preventDefault()
     let targetType = event.target.type
     let targetValue = event.target.type !== 'checkbox' ? event.target.value : event.target.checked
     if (targetType === 'number') {
@@ -131,7 +130,9 @@ const App = class App extends React.Component {
         bonus,
         totalScore,
         lighthouseCanBeDeployed,
-        lighthouseCanBeEnabled
+        lighthouseCanBeEnabled,
+        lighthouseEnabled: this.state.lighthouseExists && this.state.lighthouseEnabled,
+        lighthouseDeployed: this.state.lighthouseExists && this.state.lighthouseEnabled && this.state.lighthouseDeployed
       })
     })
 
