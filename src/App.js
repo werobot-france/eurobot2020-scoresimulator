@@ -209,8 +209,8 @@ const App = class App extends React.Component {
                 <Grid item xs={12} md={9}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={8} lg={6}>
-                      <FormControl component="fieldset" fullWidth>
-                        <FormLabel component="legend">
+                      <FormControl component="fieldset">
+                        <FormLabel component="legend" className="textfield-list">
                           {t('buoys.title')}
                         </FormLabel>
                         <TextField
@@ -218,6 +218,7 @@ const App = class App extends React.Component {
                           label={t('buoys.buoysInPort')+" (1pt)"}
                           type="number"
                           margin="dense"
+                          value={this.state.buoysInPort}
                           name="buoysInPort"
                           onChange={this.computeScore}
                         />
@@ -226,6 +227,7 @@ const App = class App extends React.Component {
                           label={t('buoys.buoysInColoredFairway.title')+" (1pt)"}
                           type="number"
                           margin="dense"
+                          value={this.state.buoysInColoredChannel}
                           name="buoysInColoredChannel"
                           onChange={this.computeScore}
                           helperText={t('buoys.buoysInColoredFairway.description')}
@@ -235,6 +237,7 @@ const App = class App extends React.Component {
                           label={t('buoys.buoysValidPairs.title')+" (2pts)"}
                           type="number"
                           margin="dense"
+                          value={this.state.buoysValidPairs}
                           name="buoysValidPairs"
                           onChange={this.computeScore}
                           helperText={t('buoys.buoysValidPairs.description')}
@@ -243,7 +246,7 @@ const App = class App extends React.Component {
                     </Grid>
                     <Grid item>
                       <FormControl component="fieldset">
-                        <FormLabel component="legend">
+                        <FormLabel component="legend" className="textfield-list">
                           {t('windsocks.title')}
                         </FormLabel>
                         <RadioGroup name="windsocks" value={this.state.windsocks} 
@@ -265,7 +268,7 @@ const App = class App extends React.Component {
                     </Grid>
                     <Grid item>
                       <FormControl component="fieldset">
-                        <FormLabel component="legend">
+                        <FormLabel component="legend" className="textfield-list">
                           {t('lighthouse.title')}
                         </FormLabel>
                         <FormGroup>
@@ -297,7 +300,7 @@ const App = class App extends React.Component {
                     </Grid>
                     <Grid item>
                       <FormControl component="fieldset">
-                        <FormLabel component="legend" color="red">
+                        <FormLabel component="legend" className="textfield-list">
                           {t('orientation.title')}
                         </FormLabel>
                         <RadioGroup name="orientation" value={this.state.orientation}
@@ -323,7 +326,7 @@ const App = class App extends React.Component {
                     </Grid>
                     <Grid item>
                       <FormControl component="fieldset">
-                        <FormLabel component="legend">
+                        <FormLabel component="legend" className="textfield-list">
                           {t('flags.title')}
                         </FormLabel>
                         <RadioGroup name="flags" value={this.state.flags} 
@@ -339,9 +342,9 @@ const App = class App extends React.Component {
                         </RadioGroup>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={8}>
+                    <Grid item xs={12} md={6}>
                       <FormControl component="fieldset" fullWidth>
-                        <FormLabel component="legend">
+                        <FormLabel component="legend" className="textfield-list">
                           {t('estimate.title')}
                         </FormLabel>
                         <TextField
@@ -349,6 +352,7 @@ const App = class App extends React.Component {
                           label={t('estimate.value')}
                           type="number"
                           margin="dense"
+                          value={this.state.estimate}
                           name="estimate"
                           onChange={this.computeScore}
                         />
@@ -356,7 +360,7 @@ const App = class App extends React.Component {
                     </Grid>
                     <Grid item xs={12} md={4}>
                       <FormControl component="fieldset" fullWidth>
-                        <FormLabel component="legend">
+                        <FormLabel component="legend" className="textfield-list">
                           {t('forfeit.title')}
                         </FormLabel>
                         <FormGroup>
