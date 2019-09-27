@@ -151,6 +151,10 @@ const App = class App extends React.Component {
   switchLocale = (locale) => {
     this.props.i18n.changeLanguage(locale)
   }
+
+  handleInputFocus = (event) => {
+    event.target.select()
+  }
   
   render() {
     const { t } = this.props;
@@ -228,6 +232,7 @@ const App = class App extends React.Component {
                           value={this.state.buoysInPort}
                           name="buoysInPort"
                           onChange={this.computeScore}
+                          onFocus={this.handleInputFocus}
                           variant="outlined"
                         />
                         <TextField
@@ -238,6 +243,7 @@ const App = class App extends React.Component {
                           value={this.state.buoysInColoredChannel}
                           name="buoysInColoredChannel"
                           onChange={this.computeScore}
+                          onFocus={this.handleInputFocus}
                           helperText={t('buoys.buoysInColoredFairway.description')}
                           variant="outlined"
                         />
@@ -249,6 +255,7 @@ const App = class App extends React.Component {
                           value={this.state.buoysValidPairs}
                           name="buoysValidPairs"
                           onChange={this.computeScore}
+                          onFocus={this.handleInputFocus}
                           variant="outlined"
                           helperText={t('buoys.buoysValidPairs.description')}
                         />
@@ -365,6 +372,7 @@ const App = class App extends React.Component {
                           value={this.state.estimate}
                           name="estimate"
                           onChange={this.computeScore}
+                          onFocus={this.handleInputFocus}
                           variant="outlined"
                         />
                       </FormControl>
@@ -392,6 +400,7 @@ const App = class App extends React.Component {
                           value={this.state.penalties}
                           name="penalties"
                           onChange={this.computeScore}
+                          onFocus={this.handleInputFocus}
                           variant="outlined"
                         />
                       </FormControl>
