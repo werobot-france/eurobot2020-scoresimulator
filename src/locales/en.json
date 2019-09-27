@@ -51,7 +51,8 @@
         "total": "Total score"
     },
     "forfeit": {
-        "title": "Forfeit",
-        "nonForfeit": "Non forfeit"
+        "title": "Forfeits & penalties",
+        "nonForfeit": "Non forfeit",
+        "penalties": "Penalties"
     }
  }
