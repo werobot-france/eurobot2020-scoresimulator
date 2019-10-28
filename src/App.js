@@ -479,7 +479,7 @@ const App = class App extends React.Component {
                     <img src="/github.png" alt="Github Logo" />
                   </div>
                   <div className="github-description">
-                    <Typography>Contribute on GitHub</Typography>
+                    <Typography>{t('contribute.title')}</Typography>
                   </div>
               </a>
             </div>

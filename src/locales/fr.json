@@ -60,5 +60,8 @@
         "title": "Forfait & pénalités",
         "nonForfeit": "Non forfait",
         "penalties": "Pénalités (-20pts)"
+    },
+    "contribute": {
+        "title": "Contribuez sur GitHub !"
     }
  }
