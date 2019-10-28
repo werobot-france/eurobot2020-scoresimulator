@@ -473,6 +473,16 @@ const App = class App extends React.Component {
               </Grid>
             </div>
             <Divider />
+            <div className="footer-container">
+              <a className="footer-content" href="https://github.com/werobot-france/eurobot2020-scoresimulator">
+                  <div className="github-icon">
+                    <img src="/github.png" alt="Github Logo" />
+                  </div>
+                  <div className="github-description">
+                    <Typography>Contribute on GitHub</Typography>
+                  </div>
+              </a>
+            </div>
           </Container>
         </ThemeProvider>
       </div>

@@ -63,6 +63,32 @@
     margin-bottom: .5em;
 }
 
+.footer-container {
+    .footer-content {
+        opacity: 0.8;
+        transition: 0.2s opacity ease-in-out;
+        &:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+        padding-top: 1.5em;
+        padding-bottom: 1.5em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: inherit;
+        text-decoration: none;
+
+        .github-icon img {
+            width: 3em;
+        }
+
+        .github-description {
+            margin-left: 1.5em;
+        }
+    }
+}
+
 @media (max-width: 800px) {
     .header {
         justify-content: center;
@@ -90,5 +116,8 @@
     }
     .textfield-list {
         text-transform: uppercase;
+    }
+    .header-buttons-container {
+        margin-top: 1em;
     }
 }
