@@ -5,6 +5,10 @@
         "description": "Simulateur de score de match eurobot 2020",
         "author": "Créé par l'équipe {{- werobot }} pour vous aider !"
     },
+    "version": {
+        "junior": "Trophées",
+        "master": "Coupe"
+    },
     "buoys": {
         "title": "Créer un chenal",
         "buoysInPort": "Bouées dans le port",
@@ -31,10 +35,12 @@
     },
     "orientation": {
         "title": "Arriver à bon port",
-        "none": "Robots dans des zones différentes",
+        "none-junior": "Le robot piloté n'est pas dans la zone",
+        "none-master": "Robots dans des zones différentes",
         "onlyOne": "Seulement un seul robot est dans la bonne zone",
         "bad": "Les robots ne sont pas dans la bonne zone",
-        "good": "Les robots sont dans la bonne zone"
+        "good-master": "Les robots sont dans la bonne zone",
+        "good-junior": "Le robot piloté est dans la bonne zone"
     },
     "flags": {
         "title": "Hisser des pavillons",

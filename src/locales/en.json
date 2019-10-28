@@ -5,6 +5,10 @@
         "description": "Compute your game score online!",
         "author": "Created by the {{- werobot }} team to help you!"
     },
+    "version": {
+        "junior": "Junior",
+        "master": "Normal"
+    },
     "buoys": {
         "title": "Create fairways",
         "buoysInPort": "Buoys in the port",
@@ -31,10 +35,12 @@
     },
     "orientation": {
         "title": "Anchor safely",
-        "none": "Not in or in differents zones",
+        "none-master": "Not in or in differents zones",
+        "none-junior": "The robot is not in the right zone",
         "onlyOne": "Only one of the robot is valid",
         "bad": "Robot(s) are in the bad zone",
-        "good": "Robot(s) are in the right zone"
+        "good-master": "Robot(s) are in the right zone",
+        "good-junior": "The controlled robot is in the right zone"
     },
     "flags": {
         "title": "Hoist flags",

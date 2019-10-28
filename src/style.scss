@@ -4,19 +4,27 @@
     align-items: center;
     .header-content {
         display: flex;
-        align-items: center;
+        .header-titles {
+            display: flex;
+            align-items: center;
+        }
         .header-title {
             margin-left: 2em;
             .header-sub {
-                margin-top: 0.5em;
+                height: 100%;
+                //margin-top: 0.5em;
                 display: flex;
             }
             /*margin-right: 2em;*/
-            .header-locales {
+            .header-buttons-container {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 padding-left: 2em;
+                flex-direction: column;
+                .header-locale {
+                    margin-bottom: 1em;
+                }
             }
         }
         .header-logos {

@@ -63,6 +63,7 @@ const App = class App extends React.Component {
       flags: 'none',
       estimate: 0,
       penalties: 0,
+      version: 'junior',
       framed: query.get('framed') === 'true',
       withoutHeader: query.get('without-header') === 'true'
     }
@@ -152,6 +153,10 @@ const App = class App extends React.Component {
     this.props.i18n.changeLanguage(locale)
   }
 
+  switchVersion = (version) => {
+    this.setState({version})
+  }
+
   handleInputFocus = (event) => {
     event.target.select()
   }
@@ -186,15 +191,17 @@ const App = class App extends React.Component {
                     {t('header.title')}
                   </Typography> */}
                   <div className="header-sub">
-                    <div>
-                      <Typography variant="h6">
-                        {t('header.description')}
-                      </Typography>
-                      <Typography dangerouslySetInnerHTML={({__html: t('header.author', { werobot: '<a href="https://werobot.fr">We Robot</a>' })})}>
-                      </Typography>
+                    <div className="header-titles">
+                      <div>
+                        <Typography variant="h6">
+                          {t('header.description')}
+                        </Typography>
+                        <Typography dangerouslySetInnerHTML={({__html: t('header.author', { werobot: '<a href="https://werobot.fr">We Robot</a>' })})}>
+                        </Typography>
+                      </div>
                     </div>
-                    <div className="header-locales">
-                      <ButtonGroup size="small" color="primary">
+                    <div className="header-buttons-container">
+                      <ButtonGroup size="small" color="primary" className="header-locale">
                         <Button 
                           onClick={() => this.switchLocale('fr')}
                           disabled={this.props.i18n.language === 'fr'}>
@@ -204,6 +211,18 @@ const App = class App extends React.Component {
                           onClick={() => this.switchLocale('en')}
                           disabled={this.props.i18n.language.indexOf('en') !== -1}>
                             English
+                        </Button>
+                      </ButtonGroup>
+                      <ButtonGroup size="small" color="primary" className="header-version">
+                        <Button 
+                          onClick={() => this.switchVersion('junior')}
+                          disabled={this.state.version === 'junior'}>
+                          {t('version.junior')}
+                        </Button>
+                        <Button
+                          onClick={() => this.switchVersion('master')}
+                          disabled={this.state.version === 'master'}>
+                          {t('version.master')}
                         </Button>
                       </ButtonGroup>
                     </div>
@@ -325,19 +344,23 @@ const App = class App extends React.Component {
                           <FormControlLabel 
                             value="none"
                             control={<Radio />}
-                            label={t('orientation.none')} />
-                          <FormControlLabel
-                            value="onlyOne"
-                            control={<Radio />}
-                            label={t('orientation.onlyOne') +" (5pts)"} />
-                          <FormControlLabel
-                            value="bad"
-                            control={<Radio />}
-                            label={t('orientation.bad') +" (5pts)"} />
+                            label={t('orientation.none-' + this.state.version)} />
+                          {this.state.version === 'master' &&
+                            <>
+                              <FormControlLabel
+                                value="onlyOne"
+                                control={<Radio />}
+                                label={t('orientation.onlyOne') +" (5pts)"} />
+                              <FormControlLabel
+                                value="bad"
+                                control={<Radio />}
+                                label={t('orientation.bad') +" (5pts)"} />
+                            </>
+                          }
                           <FormControlLabel
                             value="good"
                             control={<Radio />}
-                            label={t('orientation.good') +" (10pts)"} />
+                            label={t('orientation.good-' + this.state.version) +" (10pts)"} />
                         </RadioGroup>
                       </FormControl>
                     </Grid>
