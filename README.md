@@ -1,3 +1,8 @@
+
+# WeRobot Eurobot 2020 Score simulator
+
+### Availaible at [https://eurobot2020-scoresimulator.werobot.fr](https://eurobot2020-scoresimulator.werobot.fr)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
