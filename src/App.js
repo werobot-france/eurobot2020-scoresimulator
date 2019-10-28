@@ -151,6 +151,7 @@ const App = class App extends React.Component {
 
   switchLocale = (locale) => {
     this.props.i18n.changeLanguage(locale)
+    window.document.title = this.props.i18n.t('title')
   }
 
   switchVersion = (version) => {
@@ -159,6 +160,10 @@ const App = class App extends React.Component {
 
   handleInputFocus = (event) => {
     event.target.select()
+  }
+
+  componentWillMount() {
+    window.document.title = this.props.i18n.t('title')
   }
   
   render() {
