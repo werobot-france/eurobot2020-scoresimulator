@@ -102,8 +102,8 @@
                     margin-top: 0;
                     flex-direction: column;
                 }
-                .header-locales {
-                    margin-top: .8em;
+                .header-buttons-container {
+                    margin-top: 1em;
                     padding-left: 0;
                 }
             }
@@ -116,8 +116,5 @@
     }
     .textfield-list {
         text-transform: uppercase;
-    }
-    .header-buttons-container {
-        margin-top: 1em;
     }
 }
