@@ -398,199 +398,211 @@ const App = class App extends React.Component {
                 */}
               </div>
             </div>
-            <Divider style={{ marginBottom: '1em', marginTop: '1em' }} />
+            <Divider style={{ marginBottom: '1.5em', marginTop: '1em' }} />
             <div className="form">
-              <Grid container spacing={1}>
+              <Grid container spacing={4}>
                 <Grid item xs={12} md={9}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} md={8} lg={6}>
-                      <FormControl component="fieldset" style={{ width: '100%' }}>
-                        <FormLabel component="legend" className="textfield-list">
-                          {t('buoys.title')}
-                        </FormLabel>
-                        <NumberField
-                          name="buoysInPort"
-                          label={t('buoys.inPort') + " (1pt)"}
-                          value={this.state.buoysInPort}
-                          onChange={this.computeScore}
-                        />
-                        <NumberField
-                          name="buoysInColoredFairway"
-                          label={t('buoys.inColoredFairway.title') + " (1pt)"}
-                          value={this.state.buoysInColoredFairway}
-                          helperText={t('buoys.inColoredFairway.description')}
-                          onChange={this.computeScore}
-                        />
-                        <NumberField
-                          name="buoysValidPairs"
-                          label={t('buoys.validPairs.title') + " (2pts)"}
-                          value={this.state.buoysValidPairs}
-                          helperText={t('buoys.validPairs.description')}
-                          onChange={this.computeScore}
-                        />
-                      </FormControl>
-                    </Grid>
-                    <Grid item>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend" className="textfield-list">
-                          {t('windsocks.title')}
-                        </FormLabel>
-                        <RadioGroup name="windsocks" value={this.state.windsocks}
-                          onChange={this.computeScore}>
-                          <FormControlLabel
-                            control={<Radio />}
-                            value="none"
-                            label={t('windsocks.none')} />
-                          <FormControlLabel
-                            control={<Radio />}
-                            value="one"
-                            label={t('windsocks.one') + " (5pts)"} />
-                          <FormControlLabel
-                            value="both"
-                            control={<Radio />}
-                            label={t('windsocks.both') + " (15pts)"} />
-                        </RadioGroup>
-                      </FormControl>
-                    </Grid>
-                    <Grid item>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend" className="textfield-list">
-                          {t('lighthouse.title')}
-                        </FormLabel>
-                        <FormGroup>
-                          <FormControlLabel
-                            control={<Checkbox
-                              checked={this.state.lighthouseExists}
-                              name="lighthouseExists"
-                              onChange={this.computeScore} />}
-                            label={t('lighthouse.exists') + " (2pts)"}
-                          />
-                          <FormControlLabel
-                            control={<Checkbox
-                              checked={this.state.lighthouseEnabled}
-                              disabled={!this.state.lighthouseCanBeEnabled}
-                              onChange={this.computeScore}
-                              name="lighthouseEnabled" />}
-                            label={t('lighthouse.enabled') + " (3pts)"}
-                          />
-                          <FormControlLabel
-                            control={<Checkbox
-                              checked={this.state.lighthouseDeployed}
-                              disabled={!this.state.lighthouseCanBeDeployed || !this.state.lighthouseCanBeEnabled}
-                              onChange={this.computeScore}
-                              name="lighthouseDeployed" />}
-                            label={t('lighthouse.deployed') + " (10pts)"}
-                          />
-                        </FormGroup>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={8} lg={6}>
-                      {this.state.version === 'master' &&
-                        <FormControl component="fieldset" style={{ width: '100%' }}>
-                          <FormLabel component="legend" className="textfield-list">
-                            {t('anchor.title')}
-                          </FormLabel>
-                          <NumberField
-                            name="robotInGoodZone"
-                            label={t('anchor.master.robotInGoodZone.title')}
-                            value={this.state.robotInGoodZone}
-                            showDescription={true}
-                            onChange={this.computeScore}
-                            maximum={2}
-                          />
-                          <NumberField
-                            name="robotInBadZone"
-                            label={t('anchor.master.robotInBadZone.title')}
-                            value={this.state.robotInBadZone}
-                            showDescription={true}
-                            onChange={this.computeScore}
-                            maximum={2}
-                          />
-                        </FormControl>
-                      }
-                      {this.state.version === 'junior' &&
-                        <FormControl component="fieldset">
-                          <FormLabel component="legend" className="textfield-list">
-                            {t('anchor.title')}
-                          </FormLabel>
-                          <RadioGroup name="juniorAnchor" value={this.state.juniorAnchor}
-                            onChange={this.computeScore}>
-                            <FormControlLabel
-                              value="none"
-                              control={<Radio />}
-                              label={t('anchor.junior.none')} />
-                            <FormControlLabel
-                              value="bad"
-                              control={<Radio />}
-                              label={t('anchor.junior.bad') + " (6pts)"} />
-                            <FormControlLabel
-                              value="good"
-                              control={<Radio />}
-                              label={t('anchor.junior.good') + " (20pts)"} />
-                          </RadioGroup>
-                        </FormControl>
-                      }
-                    </Grid>
-                    <Grid item>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend" className="textfield-list">
-                          {t('flags.title')}
-                        </FormLabel>
-                        <RadioGroup name="flags" value={this.state.flags}
-                          onChange={this.computeScore}>
-                          <FormControlLabel
-                            value="none"
-                            control={<Radio />}
-                            label={t('flags.none')} />
-                          <FormControlLabel
-                            value="deployed"
-                            control={<Radio />}
-                            label={t('flags.raised') + " (10pts)"} />
-                        </RadioGroup>
-                      </FormControl>
-                    </Grid>
+                  <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
-                      <FormControl component="fieldset" fullWidth>
-                        <FormLabel component="legend" className="textfield-list">
-                          {t('estimate.title')}
-                        </FormLabel>
-                        <NumberField
-                          name="estimate"
-                          label={t('estimate.value')}
-                          value={this.state.estimate}
-                          onChange={this.computeScore}
-                          maximum={300}
-                        />
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                      <FormControl component="fieldset" fullWidth>
-                        <FormLabel component="legend" className="textfield-list">
-                          {t('forfeit.title')}
-                        </FormLabel>
-                        <FormGroup>
-                          <FormControlLabel
-                            control={<Checkbox
-                              name="nonForfeit"
-                              disabled
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <FormControl component="fieldset">
+                            <FormLabel component="legend" className="textfield-list">
+                              {t('buoys.title')}
+                            </FormLabel>
+                            <NumberField
+                              name="buoysInPort"
+                              label={t('buoys.inPort') + " (1pt)"}
+                              value={this.state.buoysInPort}
                               onChange={this.computeScore}
-                              checked={this.state.nonForfeit} />}
-                            label={t('forfeit.nonForfeit') + " (5pts)"}
-                          />
-                        </FormGroup>
-                        <NumberField
-                          name="penalties"
-                          label={t('forfeit.penalties')}
-                          value={this.state.penalties}
-                          onChange={this.computeScore}
-                          maximum={50}
-                        />
-                      </FormControl>
+                            />
+                            <NumberField
+                              name="buoysInColoredFairway"
+                              label={t('buoys.inColoredFairway.title') + " (1pt)"}
+                              value={this.state.buoysInColoredFairway}
+                              helperText={t('buoys.inColoredFairway.description')}
+                              onChange={this.computeScore}
+                            />
+                            <NumberField
+                              name="buoysValidPairs"
+                              label={t('buoys.validPairs.title') + " (2pts)"}
+                              value={this.state.buoysValidPairs}
+                              helperText={t('buoys.validPairs.description')}
+                              onChange={this.computeScore}
+                            />
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FormControl component="fieldset">
+                            <FormLabel component="legend" className="textfield-list">
+                              {t('windsocks.title')}
+                            </FormLabel>
+                            <RadioGroup
+                              name="windsocks"
+                              value={this.state.windsocks}
+                              onChange={this.computeScore}
+                              className="custom-form-group-compact"
+                            >
+                              <FormControlLabel
+                                control={<Radio />}
+                                value="none"
+                                label={t('windsocks.none')} />
+                              <FormControlLabel
+                                control={<Radio />}
+                                value="one"
+                                label={t('windsocks.one') + " (5pts)"} />
+                              <FormControlLabel
+                                value="both"
+                                control={<Radio />}
+                                label={t('windsocks.both') + " (15pts)"} />
+                            </RadioGroup>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FormControl component="fieldset">
+                            <FormLabel component="legend" className="textfield-list">
+                              {t('lighthouse.title')}
+                            </FormLabel>
+                            <FormGroup className="custom-form-group-compact">
+                              <FormControlLabel
+                                control={<Checkbox
+                                  checked={this.state.lighthouseExists}
+                                  name="lighthouseExists"
+                                  onChange={this.computeScore} />}
+                                label={t('lighthouse.exists') + " (2pts)"}
+                              />
+                              <FormControlLabel
+                                control={<Checkbox
+                                  checked={this.state.lighthouseEnabled}
+                                  disabled={!this.state.lighthouseCanBeEnabled}
+                                  onChange={this.computeScore}
+                                  name="lighthouseEnabled" />}
+                                label={t('lighthouse.enabled') + " (3pts)"}
+                              />
+                              <FormControlLabel
+                                control={<Checkbox
+                                  checked={this.state.lighthouseDeployed}
+                                  disabled={!this.state.lighthouseCanBeDeployed || !this.state.lighthouseCanBeEnabled}
+                                  onChange={this.computeScore}
+                                  name="lighthouseDeployed" />}
+                                label={t('lighthouse.deployed') + " (10pts)"}
+                              />
+                            </FormGroup>
+                          </FormControl>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={12} md={6} className="custom-division-2">
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          {this.state.version === 'master' &&
+                            <FormControl component="fieldset" style={{ width: '100%' }}>
+                              <FormLabel component="legend" className="textfield-list">
+                                {t('anchor.title')}
+                              </FormLabel>
+                              <NumberField
+                                name="robotInGoodZone"
+                                label={t('anchor.master.robotInGoodZone.title')}
+                                value={this.state.robotInGoodZone}
+                                showDescription={true}
+                                onChange={this.computeScore}
+                                maximum={2}
+                              />
+                              <NumberField
+                                name="robotInBadZone"
+                                label={t('anchor.master.robotInBadZone.title')}
+                                value={this.state.robotInBadZone}
+                                showDescription={true}
+                                onChange={this.computeScore}
+                                maximum={2}
+                              />
+                            </FormControl>
+                          }
+                          {this.state.version === 'junior' &&
+                            <FormControl component="fieldset">
+                              <FormLabel component="legend" className="textfield-list">
+                                {t('anchor.title')}
+                              </FormLabel>
+                              <RadioGroup name="juniorAnchor" value={this.state.juniorAnchor}
+                                onChange={this.computeScore}>
+                                <FormControlLabel
+                                  value="none"
+                                  control={<Radio />}
+                                  label={t('anchor.junior.none')} />
+                                <FormControlLabel
+                                  value="bad"
+                                  control={<Radio />}
+                                  label={t('anchor.junior.bad') + " (6pts)"} />
+                                <FormControlLabel
+                                  value="good"
+                                  control={<Radio />}
+                                  label={t('anchor.junior.good') + " (20pts)"} />
+                              </RadioGroup>
+                            </FormControl>
+                          }
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FormControl component="fieldset">
+                            <FormLabel component="legend" className="textfield-list">
+                              {t('flags.title')}
+                            </FormLabel>
+                            <RadioGroup name="flags" value={this.state.flags}
+                              onChange={this.computeScore}>
+                              <FormControlLabel
+                                value="none"
+                                control={<Radio />}
+                                label={t('flags.none')} />
+                              <FormControlLabel
+                                value="deployed"
+                                control={<Radio />}
+                                label={t('flags.raised') + " (10pts)"} />
+                            </RadioGroup>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FormControl component="fieldset" fullWidth>
+                            <FormLabel component="legend" className="textfield-list">
+                              {t('estimate.title')}
+                            </FormLabel>
+                            <NumberField
+                              name="estimate"
+                              label={t('estimate.value')}
+                              value={this.state.estimate}
+                              onChange={this.computeScore}
+                              maximum={300}
+                            />
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FormControl component="fieldset" fullWidth>
+                            <FormLabel component="legend" className="textfield-list">
+                              {t('forfeit.title')}
+                            </FormLabel>
+                            <FormGroup>
+                              <FormControlLabel
+                                control={<Checkbox
+                                  name="nonForfeit"
+                                  disabled
+                                  onChange={this.computeScore}
+                                  checked={this.state.nonForfeit} />}
+                                label={t('forfeit.nonForfeit') + " (5pts)"}
+                              />
+                            </FormGroup>
+                            <NumberField
+                              name="penalties"
+                              label={t('forfeit.penalties')}
+                              value={this.state.penalties}
+                              onChange={this.computeScore}
+                              maximum={50}
+                            />
+                          </FormControl>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={12} md={3}>
-                  <Grid container spacing={2}>
+                <Grid item xs={12} md={3} className="score-container">
+                  <Grid container spacing={1}>
                     <Grid item xs={7} sm={6} md={12}>
                       <Card>
                         <CardContent>
@@ -631,7 +643,7 @@ const App = class App extends React.Component {
                 </Grid>
               </Grid>
             </div>
-            <Divider />
+            <Divider style={{ marginTop: '1.5em' }} />
             <div className="footer-container">
               <a
                 className="footer-link footer-github"

@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     .header-content {
+        padding-top: .5em;
         display: flex;
         .header-titles {
             display: flex;
@@ -35,6 +36,13 @@
                 margin-right: 0em;
             }
         }
+    }
+}
+
+.custom-form-group-compact {
+    flex-direction: row !important;
+    .MuiFormControlLabel-root {
+        margin-right: 25px !important;
     }
 }
 .form {
@@ -118,6 +126,12 @@
                 }
             }
         }
+    }
+    .custom-division-2 {
+        padding-top: 2px !important;
+    }
+    .score-container {
+        padding-top: 2px !important;
     }
     .textfield-list {
         text-transform: uppercase;
