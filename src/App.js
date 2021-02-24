@@ -1,5 +1,5 @@
-import React from 'react';
-import { 
+import React, { version } from 'react';
+import {
   Container,
   Typography,
   Divider,
@@ -15,13 +15,26 @@ import {
   Checkbox,
   FormGroup,
   ButtonGroup,
-  Button
+  Button,
+  InputAdornment,
+  IconButton
 } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import './style.css'
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { indigo, purple } from '@material-ui/core/colors';
 import { withTranslation } from 'react-i18next';
+
+const VERSION_KEY = 'eurobot2020_score.version'
+
+const setQueryParam = (key, value) => {
+  if (window.history.pushState) {
+      var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' +key+'='+value;
+      window.history.pushState({path:newurl},'',newurl);
+  }
+}
 
 const theme = createMuiTheme({
   palette: {
@@ -37,35 +50,148 @@ const theme = createMuiTheme({
   },
 });
 
+const NumberField = class NumberField extends React.Component {
+  constructor(props) {
+    super(props)
+    this.minimum = props.minimum || 0
+    this.maximum = props.maximum || 100
+    this.showDescription = props.showDescription || false
+    this.helperText = props.helperText
+
+    this.state = {
+      value: this.props.value
+    }
+  }
+
+  handleInputFocus = (event) => {
+    event.target.select()
+  }
+
+  notifyChange = () => {
+    this.props.onChange({
+      target: {
+        type: 'number',
+        value: this.state.value,
+        name: this.props.name
+      }
+    })
+  }
+
+  setValue = (raw) => {
+    let value = parseInt(raw)
+    if (isNaN(value)) {
+      value = 0
+    }
+    if (value > this.maximum) {
+      return
+    }
+    if (value < this.minimum) {
+      return
+    }
+    this.setState({ value }, this.notifyChange)
+  }
+
+  onChange = (event) => {
+    this.setValue(event.target.value)
+  }
+
+  stepUp = () => {
+    this.setValue(this.state.value + 1)
+  }
+
+  stepDown = () => {
+    this.setValue(this.state.value - 1)
+  }
+
+  render() {
+    const { name, label } = this.props;
+    return <TextField
+      name={name}
+      label={label}
+      onChange={this.onChange}
+      margin="normal"
+      fullWidth
+      value={this.state.value}
+      onFocus={this.handleInputFocus}
+      helperText={this.helperText}
+      variant="outlined"
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              edge="end"
+              onClick={this.stepDown}
+            >
+              <RemoveIcon />
+            </IconButton>
+            <IconButton
+              onClick={this.stepUp}
+              edge="end"
+            >
+              <AddIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+    />
+  }
+}
+
 const App = class App extends React.Component {
 
   constructor(props) {
     super(props)
     let query = new URLSearchParams(window.location.search)
+    let version = 'master'
+    if (localStorage.getItem(VERSION_KEY) === 'junior') {
+      version = localStorage.getItem(VERSION_KEY)
+    }
+    if (query.get('version') === 'junior' || query.get('version') === 'master') {
+      version = query.get('version')
+    }
+    localStorage.setItem(VERSION_KEY, version)
     this.state = {
+      version,
+      framed: query.get('framed') === 'true',
+      withoutHeader: query.get('without-header') === 'true',
+
+      bonus: 0,
+      nonForfeit: true,
+      estimate: 0,
+      penalties: 0,
       score: 0,
       totalScore: 5,
-      bonus: 0,
-      lighthouseCanBeDeployed: false,
-      lighthouseCanBeEnabled: false,
-      nonForfeit: true,
+
       // buoys
       buoysInPort: 0,
-      buoysInColoredChannel: 0,
+      buoysInColoredFairway: 0,
       buoysValidPairs: 0,
+
       // lighthouse
+      lighthouseCanBeDeployed: false,
+      lighthouseCanBeEnabled: false,
       lighthouseExists: false,
       lighthouseEnabled: false,
       lighthouseDeployed: false,
+
       // windsock
       windsocks: 'none',
-      orientation: 'none',
+
+      // anchor
+      juniorAnchor: 'none',
+      robotInGoodZone: 0,
+      robotInBadZone: 0,
+
       flags: 'none',
-      estimate: 0,
-      penalties: 0,
-      version: 'junior',
-      framed: query.get('framed') === 'true',
-      withoutHeader: query.get('without-header') === 'true'
+
+      errors: {
+        buoysInPort: '',
+        buoysInColoredFairway: '',
+        buoysValidPairs: '',
+
+        robotInGoodZone: '',
+        robotInBadZone: ''
+      }
     }
     this.computeScore = this.computeScore.bind(this)
     this.props.i18n.changeLanguage(query.get('locale'))
@@ -81,26 +207,31 @@ const App = class App extends React.Component {
       }
     }
     //console.log(targetType, event.target.name, targetValue) 
-    
+
     let stateToUpdate = {}
     stateToUpdate[event.target.name] = targetValue
     //console.log(stateToUpdate)
     this.setState({
       [event.target.name]: targetValue
     }, () => {
-      let lighthouseCanBeEnabled = this.state.lighthouseExists
-      let lighthouseCanBeDeployed = this.state.lighthouseEnabled
-
       let totalScore = 0;
+
+      // Buoys
       totalScore += this.state.buoysInPort;
-      totalScore += this.state.buoysInColoredChannel;
+      totalScore += this.state.buoysInColoredFairway;
       totalScore += this.state.buoysValidPairs * 2;
+
+      // Windsocks
       if (this.state.windsocks === 'one') {
         totalScore += 5
       }
       if (this.state.windsocks === 'both') {
         totalScore += 15
       }
+
+      // Lighthouse
+      let lighthouseCanBeEnabled = this.state.lighthouseExists
+      let lighthouseCanBeDeployed = this.state.lighthouseEnabled
       if (this.state.lighthouseExists) {
         totalScore += 2
       }
@@ -110,33 +241,46 @@ const App = class App extends React.Component {
       if (this.state.lighthouseExists && this.state.lighthouseDeployed && this.state.lighthouseEnabled) {
         totalScore += 10
       }
-      if (this.state.orientation === 'bad') {
-        totalScore += 5
+
+      // Anchor
+      if (this.state.version === 'master') {
+        if ((this.state.robotInGoodZone + this.state.robotInBadZone) > 1) {
+          // the team has two robots
+          totalScore += 10 * this.state.robotInGoodZone
+          totalScore += 3 * this.state.robotInBadZone
+        } else {
+          // the team has one robot
+          totalScore += 20 * this.state.robotInGoodZone
+          totalScore += 6 * this.state.robotInBadZone
+        }
       }
-      if (this.state.orientation === 'onlyOne') {
-        totalScore += 5
+      if (this.state.juniorAnchor === 'good') {
+        totalScore += 20
       }
-      if (this.state.orientation === 'good') {
-        totalScore += 10
+      if (this.state.juniorAnchor === 'bad') {
+        totalScore += 6
       }
+
+      // Flags
       if (this.state.flags === 'deployed') {
         totalScore += 10
       }
+
       let score = totalScore;
-      let bonus =  (0.30 * totalScore).toFixed(0) - (Math.abs(totalScore - this.state.estimate));
-      bonus =  (bonus < 0 ? 0 : bonus);
+      let bonus = (0.30 * totalScore).toFixed(0) - (Math.abs(totalScore - this.state.estimate));
+      bonus = (bonus < 0 ? 0 : bonus);
       totalScore += bonus;
 
       if (this.state.nonForfeit) {
         totalScore += 5; // 5 points default (nonForfeit)
       }
-      
+
       totalScore -= 20 * this.state.penalties;
 
       if (totalScore < 0) {
         totalScore = 0;
       }
-            
+
       this.setState({
         score,
         bonus,
@@ -155,7 +299,9 @@ const App = class App extends React.Component {
   }
 
   switchVersion = (version) => {
-    this.setState({version})
+    localStorage.setItem(VERSION_KEY, version)
+    setQueryParam('version', version)
+    this.setState({ version })
   }
 
   handleInputFocus = (event) => {
@@ -165,31 +311,31 @@ const App = class App extends React.Component {
   componentWillMount() {
     window.document.title = this.props.i18n.t('title')
   }
-  
+
   render() {
     const { t } = this.props;
     return (
-      <div className={(this.state.framed ? 'framed' : '') + ' ' + (this.state.withoutHeader ? 'without-header': '')}>
+      <div className={(this.state.framed ? 'framed' : '') + ' ' + (this.state.withoutHeader ? 'without-header' : '')}>
         <ThemeProvider theme={theme}>
           <Container className="main-container">
             <div className="header">
               <div className="header-content">
                 <div className="header-logos">
-                   {/* <img 
+                  {/* <img 
                     src="https://www.eurobot.org/images/2020/Logo.png"
                     alt="Sail the world"
                     className="sailtheworld-logo"
                     style={{width: '10em'}} /> */}
-                  <img 
+                  <img
                     src="/icons/icon_400.png"
                     alt="Sail the world"
                     className="eurobot-logo"
-                    style={{width: '8em'}} />
+                    style={{ width: '8em' }} />
                   <img
                     src="https://s.werobot.fr/logo.png"
                     alt="We Robot's logo"
                     className="werobot-logo"
-                    style={{width: '8em'}} />
+                    style={{ width: '8em' }} />
                 </div>
                 <div className="header-title">
                   {/* <Typography variant="h4">
@@ -201,25 +347,25 @@ const App = class App extends React.Component {
                         <Typography variant="h6">
                           {t('header.description')}
                         </Typography>
-                        <Typography dangerouslySetInnerHTML={({__html: t('header.author', { werobot: '<a href="https://werobot.fr">We Robot</a>' })})}>
+                        <Typography dangerouslySetInnerHTML={({ __html: t('header.author', { werobot: '<a href="https://werobot.fr">We Robot</a>' }) })}>
                         </Typography>
                       </div>
                     </div>
                     <div className="header-buttons-container">
                       <ButtonGroup size="small" color="primary" className="header-locale">
-                        <Button 
+                        <Button
                           onClick={() => this.switchLocale('fr')}
                           disabled={this.props.i18n.language === 'fr'}>
-                            Français
+                          Français
                         </Button>
                         <Button
                           onClick={() => this.switchLocale('en')}
                           disabled={this.props.i18n.language.indexOf('en') !== -1}>
-                            English
+                          English
                         </Button>
                       </ButtonGroup>
                       <ButtonGroup size="small" color="primary" className="header-version">
-                        <Button 
+                        <Button
                           onClick={() => this.switchVersion('junior')}
                           disabled={this.state.version === 'junior'}>
                           {t('version.junior')}
@@ -238,50 +384,35 @@ const App = class App extends React.Component {
                 */}
               </div>
             </div>
-            <Divider style={{marginBottom: '1em', marginTop: '1em'}} />
+            <Divider style={{ marginBottom: '1em', marginTop: '1em' }} />
             <div className="form">
               <Grid container spacing={1}>
                 <Grid item xs={12} md={9}>
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={8} lg={6}>
-                      <FormControl component="fieldset">
+                      <FormControl component="fieldset" style={{ width: '100%' }}>
                         <FormLabel component="legend" className="textfield-list">
                           {t('buoys.title')}
                         </FormLabel>
-                        <TextField
-                          fullWidth
-                          label={t('buoys.buoysInPort')+" (1pt)"}
-                          type="number"
-                          margin="normal"
-                          value={this.state.buoysInPort}
+                        <NumberField
                           name="buoysInPort"
+                          label={t('buoys.inPort') + " (1pt)"}
+                          value={this.state.buoysInPort}
                           onChange={this.computeScore}
-                          onFocus={this.handleInputFocus}
-                          variant="outlined"
                         />
-                        <TextField
-                          fullWidth
-                          label={t('buoys.buoysInColoredFairway.title')+" (1pt)"}
-                          type="number"
-                          margin="normal"
-                          value={this.state.buoysInColoredChannel}
-                          name="buoysInColoredChannel"
+                        <NumberField
+                          name="buoysInColoredFairway"
+                          label={t('buoys.inColoredFairway.title') + " (1pt)"}
+                          value={this.state.buoysInColoredFairway}
+                          helperText={t('buoys.inColoredFairway.description')}
                           onChange={this.computeScore}
-                          onFocus={this.handleInputFocus}
-                          helperText={t('buoys.buoysInColoredFairway.description')}
-                          variant="outlined"
                         />
-                        <TextField
-                          fullWidth
-                          label={t('buoys.buoysValidPairs.title')+" (2pts)"}
-                          type="number"
-                          margin="normal"
-                          value={this.state.buoysValidPairs}
+                        <NumberField
                           name="buoysValidPairs"
+                          label={t('buoys.validPairs.title') + " (2pts)"}
+                          value={this.state.buoysValidPairs}
+                          helperText={t('buoys.validPairs.description')}
                           onChange={this.computeScore}
-                          onFocus={this.handleInputFocus}
-                          variant="outlined"
-                          helperText={t('buoys.buoysValidPairs.description')}
                         />
                       </FormControl>
                     </Grid>
@@ -290,17 +421,17 @@ const App = class App extends React.Component {
                         <FormLabel component="legend" className="textfield-list">
                           {t('windsocks.title')}
                         </FormLabel>
-                        <RadioGroup name="windsocks" value={this.state.windsocks} 
-                            onChange={this.computeScore}>
-                          <FormControlLabel 
+                        <RadioGroup name="windsocks" value={this.state.windsocks}
+                          onChange={this.computeScore}>
+                          <FormControlLabel
                             control={<Radio />}
                             value="none"
                             label={t('windsocks.none')} />
-                          <FormControlLabel 
+                          <FormControlLabel
                             control={<Radio />}
                             value="one"
                             label={t('windsocks.one') + " (5pts)"} />
-                          <FormControlLabel 
+                          <FormControlLabel
                             value="both"
                             control={<Radio />}
                             label={t('windsocks.both') + " (15pts)"} />
@@ -314,68 +445,85 @@ const App = class App extends React.Component {
                         </FormLabel>
                         <FormGroup>
                           <FormControlLabel
-                            control={<Checkbox 
+                            control={<Checkbox
                               checked={this.state.lighthouseExists}
                               name="lighthouseExists"
                               onChange={this.computeScore} />}
-                            label={t('lighthouse.exists')+" (2pts)"}
+                            label={t('lighthouse.exists') + " (2pts)"}
                           />
                           <FormControlLabel
-                            control={<Checkbox 
+                            control={<Checkbox
                               checked={this.state.lighthouseEnabled}
                               disabled={!this.state.lighthouseCanBeEnabled}
                               onChange={this.computeScore}
                               name="lighthouseEnabled" />}
-                            label={t('lighthouse.enabled')+" (3pts)"}
+                            label={t('lighthouse.enabled') + " (3pts)"}
                           />
                           <FormControlLabel
-                            control={<Checkbox 
+                            control={<Checkbox
                               checked={this.state.lighthouseDeployed}
                               disabled={!this.state.lighthouseCanBeDeployed || !this.state.lighthouseCanBeEnabled}
                               onChange={this.computeScore}
                               name="lighthouseDeployed" />}
-                            label={t('lighthouse.deployed')+" (10pts)"}
+                            label={t('lighthouse.deployed') + " (10pts)"}
                           />
                         </FormGroup>
                       </FormControl>
                     </Grid>
-                    <Grid item>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend" className="textfield-list">
-                          {t('orientation.title')}
-                        </FormLabel>
-                        <RadioGroup name="orientation" value={this.state.orientation}
+                    <Grid item xs={12} md={8} lg={6}>
+                      {this.state.version === 'master' &&
+                        <FormControl component="fieldset" style={{ width: '100%' }}>
+                          <FormLabel component="legend" className="textfield-list">
+                            {t('anchor.title')}
+                          </FormLabel>
+                          <NumberField
+                            name="robotInGoodZone"
+                            label={t('anchor.master.robotInGoodZone.title')}
+                            value={this.state.robotInGoodZone}
+                            showDescription={true}
+                            onChange={this.computeScore}
+                            maximum={2}
+                          />
+                          <NumberField
+                            name="robotInBadZone"
+                            label={t('anchor.master.robotInBadZone.title')}
+                            value={this.state.robotInBadZone}
+                            showDescription={true}
+                            onChange={this.computeScore}
+                            maximum={2}
+                          />
+                        </FormControl>
+                      }
+                      {this.state.version === 'junior' &&
+                        <FormControl component="fieldset">
+                          <FormLabel component="legend" className="textfield-list">
+                            {t('anchor.title')}
+                          </FormLabel>
+                          <RadioGroup name="juniorAnchor" value={this.state.juniorAnchor}
                             onChange={this.computeScore}>
-                          <FormControlLabel 
-                            value="none"
-                            control={<Radio />}
-                            label={t('orientation.none-' + this.state.version)} />
-                          {this.state.version === 'master' &&
-                            <>
-                              <FormControlLabel
-                                value="onlyOne"
-                                control={<Radio />}
-                                label={t('orientation.onlyOne') +" (5pts)"} />
-                              <FormControlLabel
-                                value="bad"
-                                control={<Radio />}
-                                label={t('orientation.bad') +" (5pts)"} />
-                            </>
-                          }
-                          <FormControlLabel
-                            value="good"
-                            control={<Radio />}
-                            label={t('orientation.good-' + this.state.version) +" (10pts)"} />
-                        </RadioGroup>
-                      </FormControl>
+                            <FormControlLabel
+                              value="none"
+                              control={<Radio />}
+                              label={t('anchor.junior.none')} />
+                            <FormControlLabel
+                              value="bad"
+                              control={<Radio />}
+                              label={t('anchor.junior.bad') + " (6pts)"} />
+                            <FormControlLabel
+                              value="good"
+                              control={<Radio />}
+                              label={t('anchor.junior.good') + " (20pts)"} />
+                          </RadioGroup>
+                        </FormControl>
+                      }
                     </Grid>
                     <Grid item>
                       <FormControl component="fieldset">
                         <FormLabel component="legend" className="textfield-list">
                           {t('flags.title')}
                         </FormLabel>
-                        <RadioGroup name="flags" value={this.state.flags} 
-                            onChange={this.computeScore}>
+                        <RadioGroup name="flags" value={this.state.flags}
+                          onChange={this.computeScore}>
                           <FormControlLabel
                             value="none"
                             control={<Radio />}
@@ -383,7 +531,7 @@ const App = class App extends React.Component {
                           <FormControlLabel
                             value="deployed"
                             control={<Radio />}
-                            label={t('flags.raised')+" (10pts)"} />
+                            label={t('flags.raised') + " (10pts)"} />
                         </RadioGroup>
                       </FormControl>
                     </Grid>
@@ -392,16 +540,12 @@ const App = class App extends React.Component {
                         <FormLabel component="legend" className="textfield-list">
                           {t('estimate.title')}
                         </FormLabel>
-                        <TextField
-                          fullWidth
-                          label={t('estimate.value')}
-                          type="number"
-                          margin="normal"
-                          value={this.state.estimate}
+                        <NumberField
                           name="estimate"
+                          label={t('estimate.value')}
+                          value={this.state.estimate}
                           onChange={this.computeScore}
-                          onFocus={this.handleInputFocus}
-                          variant="outlined"
+                          maximum={300}
                         />
                       </FormControl>
                     </Grid>
@@ -413,23 +557,19 @@ const App = class App extends React.Component {
                         <FormGroup>
                           <FormControlLabel
                             control={<Checkbox
-                              name="nonForfeit" 
+                              name="nonForfeit"
                               disabled
                               onChange={this.computeScore}
                               checked={this.state.nonForfeit} />}
-                            label={t('forfeit.nonForfeit')+" (5pts)"}
+                            label={t('forfeit.nonForfeit') + " (5pts)"}
                           />
                         </FormGroup>
-                        <TextField
-                          fullWidth
-                          label={t('forfeit.penalties')}
-                          type="number"
-                          margin="normal"
-                          value={this.state.penalties}
+                        <NumberField
                           name="penalties"
+                          label={t('forfeit.penalties')}
+                          value={this.state.penalties}
                           onChange={this.computeScore}
-                          onFocus={this.handleInputFocus}
-                          variant="outlined"
+                          maximum={50}
                         />
                       </FormControl>
                     </Grid>
@@ -480,12 +620,12 @@ const App = class App extends React.Component {
             <Divider />
             <div className="footer-container">
               <a className="footer-content" href="https://github.com/werobot-france/eurobot2020-scoresimulator">
-                  <div className="github-icon">
-                    <img src="/github.png" alt="Github Logo" />
-                  </div>
-                  <div className="github-description">
-                    <Typography>{t('contribute.title')}</Typography>
-                  </div>
+                <div className="github-icon">
+                  <img src="/github.png" alt="Github Logo" />
+                </div>
+                <div className="github-description">
+                  <Typography>{t('contribute.title')}</Typography>
+                </div>
               </a>
             </div>
           </Container>

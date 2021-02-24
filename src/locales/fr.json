@@ -12,14 +12,14 @@
     },
     "buoys": {
         "title": "Créer un chenal",
-        "buoysInPort": "Bouées dans le port",
-        "buoysInColoredFairway": {
-            "title": "Bouées dans le chenal coloré",
-            "description": "1pt supplémentaire par bouée valide sur la ligne de chenal de la même couleur"
+        "inPort": "Bouées dans le port",
+        "inColoredFairway": {
+            "title": "Bouées dans les chenaux colorés",
+            "description": "1pt supplémentaire par bouée valide sur une ligne de chenal de la même couleur."
         },
-        "buoysValidPairs": {
+        "validPairs": {
             "title": "Paires de bouées",
-            "description": "2pts par paires de bouées valides sur les lignes de chenaux d’un même port. Une paire valide est composée d’une bouée verte et d’une bouée rouge"
+            "description": "2pts par paires de bouées valides sur les lignes de chenaux d’un même port. Une paire valide est composée d’une bouée verte et d’une bouée rouge."
         }
     },
     "windsocks": {
@@ -34,14 +34,23 @@
         "enabled": "Activé",
         "deployed": "Deployé"
     },
-    "orientation": {
+    "anchor": {
         "title": "Arriver à bon port",
-        "none-junior": "Le robot piloté n'est pas dans la zone",
-        "none-master": "Robots dans des zones différentes",
-        "onlyOne": "Seulement un seul robot est dans la bonne zone",
-        "bad": "Les robots ne sont pas dans la bonne zone",
-        "good-master": "Les robots sont dans la bonne zone",
-        "good-junior": "Le robot piloté est dans la bonne zone"
+        "junior": {
+            "none": "Le robot piloté n'est pas dans la zone",
+            "good": "Le robot piloté est valide dans la zone indiqué",
+            "bad": "Le robot piloté est valide dans l'autre zone"
+        },
+        "master": {
+            "robotInGoodZone": {
+                "title": "Robots valides dans la zone indiqué par la girouette",
+                "description": "Si un robot 20pts sinon 10pts par robot."
+            },
+            "robotInBadZone": {
+                "title": "Robots valides dans l'autre zone",
+                "description": "Si un robot 6pts sinon 3pts par robot."
+            }
+        }
     },
     "flags": {
         "title": "Hisser des pavillons",
@@ -65,4 +74,4 @@
     "contribute": {
         "title": "Contribuez sur GitHub !"
     }
- }
+}

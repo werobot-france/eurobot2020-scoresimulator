@@ -12,14 +12,14 @@
     },
     "buoys": {
         "title": "Create fairways",
-        "buoysInPort": "Buoys in the port",
-        "buoysInColoredFairway": {
+        "inPort": "Buoys in the port",
+        "inColoredFairway": {
             "title": "Buoys in the colored fairway line",
-            "description": "1pt additionally per valid buoy on the fairway line of its color"
+            "description": "1pt additionally per valid buoy on the fairway line of its color."
         },
-        "buoysValidPairs": {
+        "validPairs": {
             "title": "Pairs of buoys",
-            "description": "2pts per pair of valid buoys on the fairway lines of one port. A valid pair includes one green buoy and one red"
+            "description": "2pts per pair of valid buoys on the fairway lines of one port. A valid pair includes one green buoy and one red."
         }
     },
     "windsocks": {
@@ -42,6 +42,24 @@
         "bad": "Robot(s) are in the bad zone",
         "good-master": "Robot(s) are in the right zone",
         "good-junior": "The controlled robot is in the right zone"
+    },
+    "anchor": {
+        "title": "Anchor safely",
+        "junior": {
+            "none": "The driven robot is not in a zone",
+            "good": "The driven robot is in the right zone",
+            "bad": "The driven robot is not in the right zone"
+        },
+        "master": {
+            "robotInGoodZone": {
+                "title": "Valid robots in the indicated zone",
+                "description": "If a team has one robot 20pts else 10pts per robot."
+            },
+            "robotInBadZone": {
+                "title": "Valid robots in the other zone",
+                "description": "If a team has one robot 6pts else 3pts per robot."
+            }
+        }
     },
     "flags": {
         "title": "Hoist flags",
