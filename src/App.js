@@ -80,6 +80,10 @@ const NumberField = class NumberField extends React.Component {
     event.target.select()
   }
 
+  handleKeyPress = (event) => {
+    console.log(event.key)
+  }
+
   notifyChange = () => {
     this.props.onChange({
       target: {
@@ -113,6 +117,15 @@ const NumberField = class NumberField extends React.Component {
     this.setValue(this.state.value - 1)
   }
 
+  onKey = (event) => {
+    if (event.key === 'ArrowUp') {
+      this.stepUp()
+    }
+    if (event.key === 'ArrowDown') {
+      this.stepDown()
+    }
+  }
+
   render() {
     const { name, label, hasExceededMaximum, maximumText, helperText } = this.props;
     return <TextField
@@ -126,6 +139,7 @@ const NumberField = class NumberField extends React.Component {
       helperText={hasExceededMaximum ? maximumText : helperText}
       error={hasExceededMaximum}
       variant="outlined"
+      onKeyDown={this.onKey}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
