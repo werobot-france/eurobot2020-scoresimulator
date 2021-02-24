@@ -64,28 +64,33 @@
 }
 
 .footer-container {
-    .footer-content {
+    display: flex;
+    padding: 0 1.5em;
+    justify-content: space-between;
+    .footer-link {
         opacity: 0.8;
-        transition: 0.2s opacity ease-in-out;
+        transition: 0.15s opacity ease;
         &:hover {
             opacity: 1;
             cursor: pointer;
         }
-        padding-top: 1.5em;
-        padding-bottom: 1.5em;
+        padding: 1.5em 0;
         display: flex;
         justify-content: center;
         align-items: center;
         color: inherit;
         text-decoration: none;
 
-        .github-icon img {
-            width: 3em;
-        }
+        // .icon img {
+        //     width: 3em;
+        // }
 
-        .github-description {
-            margin-left: 1.5em;
+        .description {
+            margin-left: 1em;
         }
+    }
+    .footer-rules .icon {
+        color: red;
     }
 }
 
@@ -116,5 +121,12 @@
     }
     .textfield-list {
         text-transform: uppercase;
+    }
+    .footer-container {
+        padding: .5em 0;
+        display: block;
+        .footer-link {
+            padding: 1em 0;
+        }
     }
 }

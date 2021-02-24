@@ -21,11 +21,24 @@ import {
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import GavelIcon from '@material-ui/icons/Gavel';
 import './style.css'
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { indigo, purple } from '@material-ui/core/colors';
 import { withTranslation } from 'react-i18next';
+
+const rules = {
+  en: {
+    master:'https://www.eurobot.org/images/2021/E2021_Rules_EN.pdf',
+    junior: null
+  },
+  fr: {
+    master: 'https://www.eurobot.org/images/2021/E2021_Rules_FR.pdf',
+    junior: 'https://www.tropheesderobotique.fr/wp-content/uploads/2020/11/EJR2021_Rules_FR.pdf'
+  }
+}
 
 const VERSION_KEY = 'eurobot2020_score.version'
 
@@ -313,7 +326,8 @@ const App = class App extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t } = this.props
+    const rulesUrl = rules[this.props.i18n.language.substr(0, 2)][this.state.version]
     return (
       <div className={(this.state.framed ? 'framed' : '') + ' ' + (this.state.withoutHeader ? 'without-header' : '')}>
         <ThemeProvider theme={theme}>
@@ -619,14 +633,32 @@ const App = class App extends React.Component {
             </div>
             <Divider />
             <div className="footer-container">
-              <a className="footer-content" href="https://github.com/werobot-france/eurobot2020-scoresimulator">
-                <div className="github-icon">
-                  <img src="/github.png" alt="Github Logo" />
+              <a
+                className="footer-link footer-github"
+                href="https://github.com/werobot-france/eurobot2020-scoresimulator"
+                target="_blank"
+              >
+                <div className="icon">
+                  <GitHubIcon />
                 </div>
-                <div className="github-description">
+                <div className="description">
                   <Typography>{t('contribute.title')}</Typography>
                 </div>
               </a>
+              {rulesUrl !== null &&
+                <a
+                  className="footer-link footer-rules"
+                  href={rulesUrl}
+                  target="_blank"
+                >
+                  <div className="icon">
+                    <GavelIcon />
+                  </div>
+                  <div className="description">
+                    <Typography>{t('rules.title')}</Typography>
+                  </div>
+                </a>
+              }
             </div>
           </Container>
         </ThemeProvider>
