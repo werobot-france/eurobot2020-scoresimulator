@@ -1,9 +1,9 @@
 {
     "id": "fr",
-    "title": "Simulation de score pour Eurobot 2020 - Par We Robot",
+    "title": "Simulation de score pour Eurobot 2020-2021 - Par We Robot",
     "header": {
-        "title": "Simulation de score Eurobot 2020",
-        "description": "Simulateur de score de match eurobot 2020",
+        "title": "Simulation de score Eurobot 2020-2021",
+        "description": "Simulateur de score de match Eurobot 2021",
         "author": "Créé par l'équipe {{- werobot }} pour vous aider !"
     },
     "version": {

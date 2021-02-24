@@ -1,8 +1,8 @@
 {
     "id": "en",
-    "title": "Eurobot 2020 score simulator - By We Robot",
+    "title": "Eurobot 2020-2021 score simulator - By We Robot",
     "header": {
-        "title": "Eurobot 2020 score simulation",
+        "title": "Eurobot 2020-2021 score simulation",
         "description": "Compute your game score online!",
         "author": "Created by the {{- werobot }} team to help you!"
     },
