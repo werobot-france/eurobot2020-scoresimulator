@@ -1,4 +1,4 @@
-import React, { version } from 'react';
+import React from 'react';
 import {
   Container,
   Typography,
@@ -667,6 +667,7 @@ const App = class App extends React.Component {
                 className="footer-link footer-github"
                 href="https://github.com/werobot-france/eurobot2020-scoresimulator"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <div className="icon">
                   <GitHubIcon />
@@ -680,6 +681,7 @@ const App = class App extends React.Component {
                   className="footer-link footer-rules"
                   href={rulesUrl}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <div className="icon">
                     <GavelIcon />
