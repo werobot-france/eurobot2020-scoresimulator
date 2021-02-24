@@ -129,6 +129,8 @@ const NumberField = class NumberField extends React.Component {
   render() {
     const { name, label, hasExceededMaximum, maximumText, helperText } = this.props;
     return <TextField
+      type="number"
+      className="custom-number-field"
       name={name}
       label={label}
       onChange={this.onChange}
