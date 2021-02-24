@@ -12,14 +12,19 @@
     },
     "buoys": {
         "title": "Create fairways",
-        "inPort": "Buoys in the port",
+        "inPort": {
+            "title": "Buoys in the port",
+            "maximum": "There is at maximum 37 buoys per team."
+        },
         "inColoredFairway": {
-            "title": "Buoys in the colored fairway line",
-            "description": "1pt additionally per valid buoy on the fairway line of its color."
+            "title": "Buoys in the colored fairways lines",
+            "description": "1pt additionally per valid buoys on the fairway line of its color.",
+            "maximum": "There can't be more buoys in the colored fairways than there is in total."
         },
         "validPairs": {
             "title": "Pairs of buoys",
-            "description": "2pts per pair of valid buoys on the fairway lines of one port. A valid pair includes one green buoy and one red."
+            "description": "2pts per pair of valid buoys on the fairway lines of one port. A valid pair includes one green buoy and one red.",
+            "maximum": "This number of pairs is not compatible with the number of buoys in the colored fairways."
         }
     },
     "windsocks": {
@@ -59,7 +64,8 @@
                 "title": "Valid robots in the other zone",
                 "description": "If a team has one robot 6pts else 3pts per robot."
             }
-        }
+        },
+        "maximum": "The number of robots is not compatible."
     },
     "flags": {
         "title": "Hoist flags",

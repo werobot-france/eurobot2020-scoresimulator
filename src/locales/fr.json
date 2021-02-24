@@ -11,15 +11,20 @@
         "master": "Coupe"
     },
     "buoys": {
-        "title": "Créer un chenal",
-        "inPort": "Bouées dans le port",
+        "title": "Créer des chenaux",
+        "inPort": {
+            "title": "Bouées dans le port",
+            "maximum": "Il y a au maximum 37 bouées par équipe."
+        },
         "inColoredFairway": {
             "title": "Bouées dans les chenaux colorés",
-            "description": "1pt supplémentaire par bouée valide sur une ligne de chenal de la même couleur."
+            "description": "1pt supplémentaire par bouée valide sur une ligne de chenal de la même couleur.",
+            "maximum": "Il ne peut pas y avoir plus de bouées dans les chenaux colorés que de bouées dans le port."
         },
         "validPairs": {
             "title": "Paires de bouées",
-            "description": "2pts par paires de bouées valides sur les lignes de chenaux d’un même port. Une paire valide est composée d’une bouée verte et d’une bouée rouge."
+            "description": "2pts par paires de bouées valides sur les lignes de chenaux d’un même port. Une paire valide est composée d’une bouée verte et d’une bouée rouge.",
+            "maximum": "Ce nombre de paires n'est pas compatible avec le nombre de bouées dans les chenaux colorés."
         }
     },
     "windsocks": {
@@ -50,7 +55,8 @@
                 "title": "Robots valides dans l'autre zone",
                 "description": "Si un robot 6pts sinon 3pts par robot."
             }
-        }
+        },
+        "maximum": "Le nombre de robots n'est pas compatible."
     },
     "flags": {
         "title": "Hisser des pavillons",

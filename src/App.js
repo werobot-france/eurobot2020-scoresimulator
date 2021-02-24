@@ -66,13 +66,13 @@ const theme = createMuiTheme({
 const NumberField = class NumberField extends React.Component {
   constructor(props) {
     super(props)
-    this.minimum = props.minimum || 0
-    this.maximum = props.maximum || 100
+    this.maximum = props.maximum
     this.showDescription = props.showDescription || false
-    this.helperText = props.helperText
 
     this.state = {
-      value: this.props.value
+      value: this.props.value,
+      hasError: false,
+      errorText: null
     }
   }
 
@@ -95,10 +95,7 @@ const NumberField = class NumberField extends React.Component {
     if (isNaN(value)) {
       value = 0
     }
-    if (value > this.maximum) {
-      return
-    }
-    if (value < this.minimum) {
+    if (value < 0) {
       return
     }
     this.setState({ value }, this.notifyChange)
@@ -117,7 +114,7 @@ const NumberField = class NumberField extends React.Component {
   }
 
   render() {
-    const { name, label } = this.props;
+    const { name, label, hasExceededMaximum, maximumText, helperText } = this.props;
     return <TextField
       name={name}
       label={label}
@@ -126,7 +123,8 @@ const NumberField = class NumberField extends React.Component {
       fullWidth
       value={this.state.value}
       onFocus={this.handleInputFocus}
-      helperText={this.helperText}
+      helperText={hasExceededMaximum ? maximumText : helperText}
+      error={hasExceededMaximum}
       variant="outlined"
       InputProps={{
         endAdornment: (
@@ -412,9 +410,11 @@ const App = class App extends React.Component {
                             </FormLabel>
                             <NumberField
                               name="buoysInPort"
-                              label={t('buoys.inPort') + " (1pt)"}
+                              label={t('buoys.inPort.title') + " (1pt)"}
                               value={this.state.buoysInPort}
                               onChange={this.computeScore}
+                              hasExceededMaximum={this.state.buoysInPort > 37}
+                              maximumText={t('buoys.inPort.maximum')}
                             />
                             <NumberField
                               name="buoysInColoredFairway"
@@ -422,6 +422,8 @@ const App = class App extends React.Component {
                               value={this.state.buoysInColoredFairway}
                               helperText={t('buoys.inColoredFairway.description')}
                               onChange={this.computeScore}
+                              hasExceededMaximum={this.state.buoysInColoredFairway > this.state.buoysInPort}
+                              maximumText={t('buoys.inColoredFairway.maximum')}
                             />
                             <NumberField
                               name="buoysValidPairs"
@@ -429,6 +431,8 @@ const App = class App extends React.Component {
                               value={this.state.buoysValidPairs}
                               helperText={t('buoys.validPairs.description')}
                               onChange={this.computeScore}
+                              hasExceededMaximum={this.state.buoysValidPairs > Math.floor(this.state.buoysInColoredFairway/2)}
+                              maximumText={t('buoys.validPairs.maximum')}
                             />
                           </FormControl>
                         </Grid>
@@ -506,7 +510,8 @@ const App = class App extends React.Component {
                                 value={this.state.robotInGoodZone}
                                 showDescription={true}
                                 onChange={this.computeScore}
-                                maximum={2}
+                                hasExceededMaximum={this.state.robotInGoodZone + this.state.robotInBadZone > 2}
+                                maximumText={''}
                               />
                               <NumberField
                                 name="robotInBadZone"
@@ -514,7 +519,8 @@ const App = class App extends React.Component {
                                 value={this.state.robotInBadZone}
                                 showDescription={true}
                                 onChange={this.computeScore}
-                                maximum={2}
+                                hasExceededMaximum={this.state.robotInGoodZone + this.state.robotInBadZone > 2}
+                                maximumText={t('anchor.maximum')}
                               />
                             </FormControl>
                           }
@@ -569,7 +575,6 @@ const App = class App extends React.Component {
                               label={t('estimate.value')}
                               value={this.state.estimate}
                               onChange={this.computeScore}
-                              maximum={300}
                             />
                           </FormControl>
                         </Grid>
@@ -593,7 +598,6 @@ const App = class App extends React.Component {
                               label={t('forfeit.penalties')}
                               value={this.state.penalties}
                               onChange={this.computeScore}
-                              maximum={50}
                             />
                           </FormControl>
                         </Grid>
