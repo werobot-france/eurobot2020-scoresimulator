@@ -127,7 +127,7 @@ const NumberField = class NumberField extends React.Component {
   }
 
   render() {
-    const { name, label, hasExceededMaximum, maximumText, helperText } = this.props;
+    const { name, label, hasViolatedRange, rangeViolationText, helperText } = this.props;
     return <TextField
       type="number"
       className="custom-number-field"
@@ -138,8 +138,8 @@ const NumberField = class NumberField extends React.Component {
       fullWidth
       value={this.state.value}
       onFocus={this.handleInputFocus}
-      helperText={hasExceededMaximum ? maximumText : helperText}
-      error={hasExceededMaximum}
+      helperText={hasViolatedRange ? rangeViolationText : helperText}
+      error={hasViolatedRange}
       variant="outlined"
       onKeyDown={this.onKey}
       InputProps={{
@@ -208,6 +208,7 @@ const App = class App extends React.Component {
       juniorAnchor: 'none',
       robotInGoodZone: 0,
       robotInBadZone: 0,
+      robotCount: 1,
 
       flags: 'none',
 
@@ -271,12 +272,10 @@ const App = class App extends React.Component {
 
       // Anchor
       if (this.state.version === 'master') {
-        if ((this.state.robotInGoodZone + this.state.robotInBadZone) > 1) {
-          // the team has two robots
+        if (this.state.robotCount === 2) {
           totalScore += 10 * this.state.robotInGoodZone
           totalScore += 3 * this.state.robotInBadZone
         } else {
-          // the team has one robot
           totalScore += 20 * this.state.robotInGoodZone
           totalScore += 6 * this.state.robotInBadZone
         }
@@ -429,8 +428,8 @@ const App = class App extends React.Component {
                               label={t('buoys.inPort.title') + " (1pt)"}
                               value={this.state.buoysInPort}
                               onChange={this.computeScore}
-                              hasExceededMaximum={this.state.buoysInPort > 37}
-                              maximumText={t('buoys.inPort.maximum')}
+                              hasViolatedRange={this.state.buoysInPort > 37}
+                              rangeViolationText={t('buoys.inPort.maximum')}
                             />
                             <NumberField
                               name="buoysInColoredFairway"
@@ -438,8 +437,8 @@ const App = class App extends React.Component {
                               value={this.state.buoysInColoredFairway}
                               helperText={t('buoys.inColoredFairway.description')}
                               onChange={this.computeScore}
-                              hasExceededMaximum={this.state.buoysInColoredFairway > this.state.buoysInPort}
-                              maximumText={t('buoys.inColoredFairway.maximum')}
+                              hasViolatedRange={this.state.buoysInColoredFairway > this.state.buoysInPort}
+                              rangeViolationText={t('buoys.inColoredFairway.maximum')}
                             />
                             <NumberField
                               name="buoysValidPairs"
@@ -447,8 +446,8 @@ const App = class App extends React.Component {
                               value={this.state.buoysValidPairs}
                               helperText={t('buoys.validPairs.description')}
                               onChange={this.computeScore}
-                              hasExceededMaximum={this.state.buoysValidPairs > Math.floor(this.state.buoysInColoredFairway/2)}
-                              maximumText={t('buoys.validPairs.maximum')}
+                              hasViolatedRange={this.state.buoysValidPairs > Math.floor(this.state.buoysInColoredFairway/2)}
+                              rangeViolationText={t('buoys.validPairs.maximum')}
                             />
                           </FormControl>
                         </Grid>
@@ -521,13 +520,22 @@ const App = class App extends React.Component {
                                 {t('anchor.title')}
                               </FormLabel>
                               <NumberField
+                                name="robotCount"
+                                label={t('robotCount.title')}
+                                value={this.state.robotCount}
+                                showDescription={true}
+                                onChange={this.computeScore}
+                                hasViolatedRange={this.state.robotCount > 2 || this.state.robotCount < 1}
+                                rangeViolationText={t('robotCount.rangeViolation')}
+                              />
+                              <NumberField
                                 name="robotInGoodZone"
                                 label={t('anchor.master.robotInGoodZone.title')}
                                 value={this.state.robotInGoodZone}
                                 showDescription={true}
                                 onChange={this.computeScore}
-                                hasExceededMaximum={this.state.robotInGoodZone + this.state.robotInBadZone > 2}
-                                maximumText={''}
+                                hasViolatedRange={this.state.robotInGoodZone + this.state.robotInBadZone > 2}
+                                rangeViolationText={''}
                               />
                               <NumberField
                                 name="robotInBadZone"
@@ -535,8 +543,8 @@ const App = class App extends React.Component {
                                 value={this.state.robotInBadZone}
                                 showDescription={true}
                                 onChange={this.computeScore}
-                                hasExceededMaximum={this.state.robotInGoodZone + this.state.robotInBadZone > 2}
-                                maximumText={t('anchor.maximum')}
+                                hasViolatedRange={this.state.robotInGoodZone + this.state.robotInBadZone > 2}
+                                rangeViolationText={t('anchor.maximum')}
                               />
                             </FormControl>
                           }

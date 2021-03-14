@@ -67,6 +67,10 @@
         },
         "maximum": "The number of robots is not compatible."
     },
+    "robotCount": {
+        "title": "Number of robots in total",
+        "rangeViolation": "This field is either 1 or 2"
+    },
     "flags": {
         "title": "Hoist flags",
         "none": "Not raised",

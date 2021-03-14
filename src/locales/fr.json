@@ -58,6 +58,10 @@
         },
         "maximum": "Le nombre de robots n'est pas compatible."
     },
+    "robotCount": {
+        "title": "Nombre de robots au total",
+        "rangeViolation": "Le nombre de robots doit être compris entre 1 et 2"
+    },
     "flags": {
         "title": "Hisser des pavillons",
         "none": "Pas hissés",
