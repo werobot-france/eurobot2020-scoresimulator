@@ -43,12 +43,12 @@
         "title": "Arriver à bon port",
         "junior": {
             "none": "Le robot piloté n'est pas dans la zone",
-            "good": "Le robot piloté est valide dans la zone indiqué",
+            "good": "Le robot piloté est valide dans la zone indiquée",
             "bad": "Le robot piloté est valide dans l'autre zone"
         },
         "master": {
             "robotInGoodZone": {
-                "title": "Robots valides dans la zone indiqué par la girouette",
+                "title": "Robots valides dans la zone indiquée par la girouette",
                 "description": "Si un robot 20pts sinon 10pts par robot."
             },
             "robotInBadZone": {

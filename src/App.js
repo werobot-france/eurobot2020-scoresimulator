@@ -534,7 +534,7 @@ const App = class App extends React.Component {
                                 value={this.state.robotInGoodZone}
                                 showDescription={true}
                                 onChange={this.computeScore}
-                                hasViolatedRange={this.state.robotInGoodZone + this.state.robotInBadZone > 2}
+                                hasViolatedRange={this.state.robotInGoodZone + this.state.robotInBadZone > this.state.robotCount}
                                 rangeViolationText={''}
                               />
                               <NumberField
@@ -543,7 +543,7 @@ const App = class App extends React.Component {
                                 value={this.state.robotInBadZone}
                                 showDescription={true}
                                 onChange={this.computeScore}
-                                hasViolatedRange={this.state.robotInGoodZone + this.state.robotInBadZone > 2}
+                                hasViolatedRange={this.state.robotInGoodZone + this.state.robotInBadZone > this.state.robotCount}
                                 rangeViolationText={t('anchor.maximum')}
                               />
                             </FormControl>
